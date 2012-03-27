@@ -2,28 +2,46 @@
 %html
   %head
     %meta{ :charset=>'utf-8' }
-    %title An awesome site 
+    %title Togglz - Features flag for Java
     %meta{ :name=>'viewport', :content=>'width=device-width, initial-scale=1.0' }
-    :css
-      body {
-        padding-top: 60px;
-      }
     %link{ :rel=>'stylesheet', :type=>'text/css', :href=>'/stylesheets/styles.css' }
     /[if lt IE 9]
       %script{ :type=>'text/javascript', :src=>'//html5shim.googlecode.com/svn/trunk/html5.js' }
   %body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container
-          %a.brand{ :href=>'/' } Project Name
-          %ul.nav
-            %li
-              %a{ :href=>'/' } Home
     .container
-      ~ content
+      .row
+        .span12
+          #header
+            %h1
+              Togglz
+            %h2
+              Feature Flags for Java
+      .row
+        .span3
+          #navigation
+            %h1 Navigation
+            %ul.nav.nav-list
+              %li.nav-header
+                General
+              %li
+                %a{:href=>'/'}
+                  Home
+              %li
+                %a{:href=>'/download.html'}
+                  Downloads
+              %li.nav-header
+                Documentation
+              %li
+                %a{:href=>'/manual'}
+                  Manual
+              %li
+                %a{:href=>'/apidics'}
+                  Javadocs
+        .span9
+          ~ content
       %hr
       %footer
-        %p &copy; Organization #{Date.today.year}
+        %p &copy; Christian Kaltepoth #{Date.today.year}
     -# Uncomment script tags (remove leading -#) when you're ready to use behaviors
     -# %script{ :type=>'text/javascript', :src=>'//cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js' }
     -# %script{ :type=>'text/javascript', :src=>'/javascripts/bootstrap-collapse.js' }

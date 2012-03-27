@@ -3,3 +3,33 @@
 
 // Include responsive Bootstrap styles
 // @import "bootstrap-responsive";
+
+/*
+ * ================================
+ *             Header
+ * ================================
+ */
+ 
+#header {
+  padding: 20px;
+}
+
+#header h1 {
+  font-size: 50px;
+}
+
+#header h2 {
+  margin: 15px 0 0 5px;
+  font-size: 20px;
+}
+
+
+/*
+ * ================================
+ *           Navigation
+ * ================================
+ */
+ 
+ #navigation h1 {
+   font-size: 20px;
+ }

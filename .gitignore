@@ -5,3 +5,5 @@ _tmp
 .sass-cache
 _rewrite.log
 .rvmrc
+.project
+
