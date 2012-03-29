@@ -10,7 +10,7 @@
     /[if lt IE 9]
       %script{ :type=>'text/javascript', :src=>'//html5shim.googlecode.com/svn/trunk/html5.js' }
   %body{ :onload => 'prettyPrint()' }
-    .container
+    .container.togglz
       .row
         .span12
           #header
@@ -34,7 +34,10 @@
                 Reference
               %li
                 %a{:href=>'/quickstart.html'}
-                  Quickstart
+                  Getting Started
+              %li
+                %a{:href=>'/apidocs'}
+                  Javadocs
               %li.nav-header
                 Documentation
               %li
