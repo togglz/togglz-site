@@ -1,0 +1,83 @@
+---
+layout: base
+---
+
+%h1
+  Installation
+
+%p  
+  Togglz has been developed in a very modular manner. This allows you to select exactly the components of the framework you want to use. The installation process in the documentation will be explained using Apache Maven. But of cause you can also use any other build system you want.
+
+%p
+  As first step it is recommended to add a property to you pom holding the Togglz version you want to use. 
+  
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <properties>
+      <togglz.version>1.0.0.Alpha3</togglz.version>
+    </properties>
+
+%p  
+  The Togglz artifacts are deployed to the Togglz Maven Repository on GitHub. So you will typically have to add the following repository declaration to your pom:
+  
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <repository>
+      <id>togglz</id>
+      <name>Togglz Maven Repository</name>
+      <url>http://chkal.github.com/togglz/repository/</url>
+    </repository>
+
+%p  
+  Now you have to add the Togglz dependencies to your project. The only required dependency is the <code>togglz-servlet</code> module which contains the core components for integrating Togglz into web applications.
+
+%p
+  If your application uses CDI or Spring, you will typically want to add the corresponding integration modules.
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz for Servlet environments (mandatory) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-servlet</artifactId>
+      <version>${togglz.version}</version>
+    </dependency>
+    
+    <!-- CDI integration (optional) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-cdi</artifactId>
+      <version>${togglz.version}</version>
+    </dependency>
+    
+    <!-- Spring integration (optional) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring</artifactId>
+      <version>${togglz.version}</version>
+    </dependency>
+    
+    <!-- JSF integration (optional) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-jsf</artifactId>
+      <version>${togglz.version}</version>
+    </dependency> 
+
+%p  
+  If you deploy your application to a container supporting Servlet 3.0, you won't have to do any further configuration. If your container doesn't support Servlet 3.0, you will have to add the following filter declaration to your <code>/WEB-INF/web.xml</code>:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz configuration for Servlet 2.5 and earlier -->
+    <filter>
+      <filter-name>TogglzFilter</filter-name>
+      <filter-class>org.togglz.servlet.TogglzFilter</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>TogglzFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+%p  
+  The installation of Togglz is now finished. The next step is to configure Togglz like described in the [[Configuration]] chapter.

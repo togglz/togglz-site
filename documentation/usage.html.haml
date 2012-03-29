@@ -1,0 +1,36 @@
+---
+layout: base
+---
+
+%h1
+  Usage
+
+%p
+  If you followed the preceding chapters, you are now ready to actually use Togglz:
+
+%h2
+  Java Code
+
+%p
+  Checking if a feature is active or not from Java code is straight forward. Just call the <code>isActive()</code> method on the corresponding enum.
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    if (MyFeatures.HOT_NEW_FEATURE.isActive()) {
+      // do cool new stuff here
+    }
+
+%p
+  You see that checking the feature state is very easy. You don't have to lookup any objects or something like this. Just call a regular method on the enum and you are done! :)
+
+%h2
+  JSF integration
+
+%p
+  The JSF integration module provides a very simple way to render page content depending on whether a feature is active or not:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <h:panelGroup rendered="\#{features['FEATURE_ONE']}">
+      <!-- Some part of the page required for FEATURE_ONE -->
+    </h:panelGroup>

@@ -1,0 +1,24 @@
+---
+layout: base
+---
+
+:markdown
+  Overview
+  ========
+
+  Togglz is an implementation of the [Feature Toggles](http://martinfowler.com/bliki/FeatureToggle.html) pattern for Java. Feature Toggles are very useful especially in the context of agile development practices and are used by big sites like [Flickr](http://code.flickr.com/blog/2009/12/02/flipping-out/).
+
+  [Martin Fowler](http://martinfowler.com/) defines Feature Toggles like this:
+
+  > The basic idea is to have a configuration file that defines a bunch of toggles for various features you have pending. The running application then uses these toggles in order to decide whether or not to show the new feature.
+
+  So the basic idea is to define a toggle for each new feature you implement. As this toggle is disabled by default you can safely deploy the application to the production servers even if the feature is not completely finished and tested. If the feature implementation is complete you can enable it in the production system at any point in time.
+
+  This concepts brings many advantages:
+
+  * You are able to deploy the application at any time. Even if not all features are completely implemented. Just disable the features that shouldn't be visible for the users.
+  * The deployment of a new version of your application doesn't mean all the changes are effective. You can do a **Dark Launch**, which means that you first deploy the new version and activate features at a later point in time.
+  * You can test a new feature in production by activating it only for a small group of beta testers. This is also known as **Dark Testing**.
+  * If you fine a serious bug in a new feature, you can immediately disable it until you are able to deploy a bugfix.
+
+  *TODO: Write more about the core concepts of Togglz*

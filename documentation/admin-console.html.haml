@@ -1,0 +1,43 @@
+---
+layout: base
+---
+
+%h1
+  Admin Console
+
+%p
+  Togglz comes with an embedded admin console that allows you to enable or disable features and edit the user list associated with every feature. The following screenshot shows the main page of the console.
+
+%img(src='/images/screenshot-admin-console.png')
+
+%p
+  To enable the Togglz admin console, add the following dependency to your <code>pom.xml</code>:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz Admin Console -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-console</artifactId>
+      <version>${togglz.version}</version>
+    </dependency> 
+
+%p
+  If you deploy your application to a Servlet 3.0 container, you won't have to do any further configuration. If your container doesn't support Servlet 3.0, you will have to add the <code>TogglzConsoleServlet</code> to your <code>/WEB-INF/web.xml</code> like this:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <servlet>
+      <servlet-name>TogglzConsoleServlet</servlet-name>
+      <servlet-class>org.togglz.console.TogglzConsoleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>TogglzConsoleServlet</servlet-name>
+      <url-pattern>/togglz/*</url-pattern>
+    </servlet-mapping>
+
+%p
+  The admin console will be available in a virtual path named <code>togglz</code> within you application. So if you application is deployed to a context path named <code>myapp</code> within the container, you will have to use the following URL:
+
+%p.calign
+  <a href="http://localhost:8080/myapp/togglz/">http://localhost:8080/myapp/togglz/</a>

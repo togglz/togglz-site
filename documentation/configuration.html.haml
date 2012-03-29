@@ -1,0 +1,142 @@
+---
+layout: base
+---
+
+%h1
+  Configuration
+
+%p
+  The configuration of Togglz is done using Java code. So you won't have to edit any XML files or something like that. 
+
+%h2
+  Feature definition
+
+%p  
+  Configuring Togglz requires you to implement two classes. The first class is the feature enum which declares the features you want to manage with Togglz. This enum is a standard Java enum which implements the <code>Feature</code> interface.
+
+%p
+  The following example shows a typical feature enum:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public enum MyFeatures implements Feature {
+    
+        @EnabledByDefault
+        @Label("First Feature")
+        FEATURE_ONE,
+        
+        @Label("Second Feature")
+        FEATURE_TWO;
+        
+        public boolean isActive() {
+            return FeatureContext.getFeatureManager().isActive(this);
+        }
+        
+    }
+
+%p  
+  This example shows a feature enum declaring the features <code>FEATURE_ONE</code> and <code>FEATURE_TWO</code>. Both enum values have been enriched with some metadata using Java annotations. Togglz offers the following annotations for your feature declarations:
+
+%ul
+  %li
+    <code>@Label</code>: This annotation can be used to specify a human readable label for the feature. This label will for example be used in the Togglz Admin Console.
+  %li
+    <code>@EnabledByDefault</code>: Typically a feature will be disabled per default if no other feature state has been persisted before. If you annotate a feature with this annotation, the feature will be enabled instead.  
+
+%p
+  Besides the feature declaration a feature enum typically also declares a single public method called <code>isActive()</code>. This allows to check whether a feature is active or not simply by calling this method on the enum. You should typically add this method as it is to your feature enum without any modification. 
+
+%h2
+  Implementing FeatureManagerConfiguration
+
+%p
+  The next step is to configure the FeatureManager which is the central Togglz component that manages the state of your features. To do so, you have to create a class implementing the <code>FeatureManagerConfiguration</code>.
+
+%p
+  The following example shows a typical FeatureManager configuration:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    
+        public Class<? extends Feature> getFeatureClass() {
+            return MyFeatures.class;
+        }
+    
+        public FeatureStateRepository getFeatureStateRepository() {
+            return new FileBasedRepository(new File("/somewhere/features.properties"));
+        }
+    
+        public FeatureUserProvider getFeatureUserProvider() {
+            return new ServletFeatureUserProvider();
+        }
+    
+    }
+
+%p  
+  Implementing the <code>FeatureManagerConfiguration</code> interface requires you to implement three methods. The following sections will describe each of the methods in detail.
+
+%h3
+  getFeatureClass() 
+
+%p
+  This method is the easiest to implement. It is used to tell Togglz about the feature enum class you want to use. You simply return the Class object of your feature enum here.
+
+%h3
+  getFeatureStateRepository()
+
+%p
+  This method allows you to select the feature state repository you would like to use. The feature state repository is responsible to persist the current state of your features. It knows which features are enabled/disabled and knows about the optional user list that can be attached to a feature.
+
+%p
+  Togglz ships with a number of default implementations. Please refer to [[Feature-State-Repositories]] for details.
+
+%p
+  The example shows how to configure a feature state repository that reads the current feature state from an external file.
+
+%h3
+  getFeatureUserProvider()
+
+%p
+  This method returns an implementation of the <code>FeatureUserProvider</code> interface which is responsible to tell the FeatureManager who is the *current user*. Knowing about the current user is essential for Togglz because it is possible to enable features only for specific users.
+
+%p
+  This example uses the <code>ServletFeatureUserProvider</code> as the feature user provider. This implementation uses the <code>HttpServletRequest.getUserPrincipal()</code> to obtain the current user. Other strategies for user authorization will be described in a later chapter.
+
+%h2
+  Tell Togglz about your configuration class
+
+%p
+  After implementing the <code>FeatureManagerConfiguration</code> interface you need to tell Togglz about your implementation class. How to do this highly depends on your environment and the integration modules you selected.
+
+%h3
+  CDI
+
+%p
+  If your are using CDI and included the Togglz CDI integration module in your application, you won't have to do anything. Togglz will automatically search for implementations of <code>FeatureManagerConfiguration</code> managed by the CDI container. As your implementation will typically have an empty default constructor, CDI will pick it up as a managed bean and Togglz will find it automatically. 
+
+%h3
+  Spring
+
+%p
+  Togglz offers a special integration module for Spring. This module will automatically search for implementations of the <code>FeatureManagerConfiguration</code> in Spring's <code>ApplicationContext</code>. Therefore you just have to declare your implementation as a class managed by Spring. If you are using the Spring annotation support you can just add a <code>@Component</code> annotation to your class:
+  
+%pre(class="prettyprint lang-java")
+  :escaped
+    @Component
+    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+      // code
+    }
+  
+%h3
+  Servlet Environments
+
+%p
+  If you don't use Spring or CDI, you will have to add a context parameter to your <code>web.xml</code> to tell Togglz about your <code>FeatureManagerConfiguration</code> implementation. For the example in this chapter you would have to add this entry:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <context-param>
+      <param-name>org.togglz.core.config.FeatureManagerConfiguration</param-name>
+      <param-value>com.example.myapp.MyTogglzConfiguration</param-value>
+    </context-param>
