@@ -51,7 +51,7 @@ layout: base
 %p
   If you deploy your application to a Servlet 3.0 container, you won't have to do any further configuration.
   In case your container doesn't support Servlet 3.0, you have to manually register the required Filter. Please 
-  refer to TODO:Installation for details.
+  refer to <a href="/documentation/installation.html">Installation</a> for details.
 
 %h2
   Configuration
@@ -105,9 +105,14 @@ layout: base
   %li
     <code>getFeatureClass()</code>: This method is used to tell Togglz about your feature enum. Just return the class of the enum here.
   %li
-    <code>getFeatureStateRepository()</code>: This method must return the feature state repository which is responsible to persist the state of features. This example uses the <code>FileBasedRepository</code> which uses Java property files to save the feature state. But Toggles provides several other implementations. Please refer to TODO:Feature State Repositories for details.
+    <code>getFeatureStateRepository()</code>: This method must return the feature state repository which is responsible to persist 
+    the state of features. This example uses the <code>FileBasedRepository</code> which uses Java property files to save the
+    feature state. But Toggles provides several other implementations. 
+    Please refer to <a href="/documentation/repositories.html">Feature State Repositories</a> for details.
   %li
-    <code>getFeatureUserProvider()</code>: This method returns a provider class that is responsible to tell the FeatureManager which is the *current user*. Togglz provides out-of-the-box integration with many popular security frameworks. Please refer to TODO:User Authentication for details.
+    <code>getFeatureUserProvider()</code>: This method returns a provider class that is responsible to tell the FeatureManager 
+    which is the *current user*. Togglz provides out-of-the-box integration with many popular security frameworks. 
+    Please refer to <a href="/documentation/authentication.html">User Authentication</a> for details.
 
 %h2
   Usage
@@ -142,7 +147,9 @@ layout: base
     </dependency> 
 
 %p
-  If you deploy your application to a Servlet 3.0 container, you won't have to do any further configuration. If your container doesn't support Servlet 3.0, you will have to manually add the <code>TogglzConsoleServlet</code> to your <code>/WEB-INF/web.xml</code>. Please refer to TODO:Installation for details.
+  If you deploy your application to a Servlet 3.0 container, you won't have to do any further configuration. If your 
+  container doesn't support Servlet 3.0, you will have to manually add the <code>TogglzConsoleServlet</code> to 
+  your <code>/WEB-INF/web.xml</code>. Please refer to <a href="/documentation/installation.html">Installation</a> for details.
 
 %p
   The admin console will be available in a virtual path named <code>togglz</code> within you application. So if you application is deployed to a context path named <code>myapp</code> within the container, you will have to use the following URL: [http://localhost:8080/myapp/togglz/](http://localhost:8080/myapp/togglz/)

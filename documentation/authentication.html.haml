@@ -1,0 +1,161 @@
+---
+layout: base
+---
+
+%h1
+  User Authentication
+
+%p
+  In some situations Togglz requires knowledge about the _current user_ that is acting in the application. The two most important reasons for this are:
+
+%ul
+  %li
+    Features can be enabled only for specific users. So Togglz requires the <i>current user</i> to tell if a feature is active or not.
+  %li
+    Togglz needs to know which users should be allowed to use the Togglz Admin Console.
+
+%p
+  The strategy to obtain the current user is represented by the <code>FeatureUserProvider</code> interface. You can choose 
+  which strategy is used by implementing <code>FeatureManagerConfiguration.getFeatureUserProvider()</code> like 
+  described in <a href="/documentation/configuration.html">Configuration</a>.
+
+%p
+  Togglz ships with a number of default implementations for integrating with different user management scenarios. The following section will describe each of them in detail.
+
+%h2
+  ServletFeatureUserProvider
+
+%p
+  This class is especially useful if your application is integrated with the authentication facilities of your container. It uses <code>HttpServletRequest.getUserPrincipal()</code> for obtaining the name of the current user and <code>HttpServletRequest.isUserInRole()</code> to check if the user is allowed to configure feature state using the admin console. You can optionally choose which role a user must have by specifying the group name in the constructor. 
+
+%p
+  The the following implementation of <code>FeatureManagerConfiguration</code> for an example:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    
+        /* ..... */ 
+    
+        @Override
+        public FeatureUserProvider getFeatureUserProvider() {
+            return new ServletFeatureUserProvider("ADMIN_ROLE");
+        }
+    }
+
+%h2
+  ThreadLocalFeatureUserProvider
+
+%p
+  Many applications are using servlet filters to implement authentication. In these scenarios authentication is typically done for a single request received by the application. If you are using such a pattern for user authentication you can use <code>ThreadLocalFeatureUserProvider</code> to tell Togglz about the current user.
+
+%p
+  This implementation allows to store the current user in a ThreadLocal object for the current request. The only thing you have to do is to set the current user from your filter like this:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+            throws IOException, ServletException {
+    
+        String username = ...;
+        boolean isAdmin = ...;
+    
+        FeatureUser user = new SimpleFeatureUser(username, isAdmin);
+        ThreadLocalFeatureUserProvider.setFeatureUser(user);
+    
+        try {
+            chain.doFilter(request, response);
+        } finally {
+            ThreadLocalFeatureUserProvider.setFeatureUser(null);
+        }
+    
+    }
+
+%p
+  The register the <code>ThreadLocaleFeatureUserProvider</code> in your <code>FeatureManagerConfiguration</code> like this:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    
+        /* ..... */ 
+    
+        @Override
+        public FeatureUserProvider getFeatureUserProvider() {
+            return new ThreadLocaleFeatureUserProvider();
+        }
+    }
+
+%h2
+  SeamSecurityFeatureUserProvider
+
+%p
+  This provider implementation offers a very simple way to integrate Togglz with Seam Security. This provider can be used after adding the following dependency to your project:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-seam-security</artifactId>
+      <version>${togglz.version}</version>
+    </dependency>
+
+%p
+  To use this <code>FeatureUserProvider</code>, register it in your <code>FeatureManagerConfiguration</code> like this:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    
+        /* ..... */ 
+    
+        @Override
+        public FeatureUserProvider getFeatureUserProvider() {
+            return new SeamSecurityFeatureUserProvider();
+        }
+    }
+
+%p
+  Now implement an authorizer method for <code>@FeatureAdmin</code> like this:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class SeamSecurityAuthorizer {
+    
+        @Secures
+        @FeatureAdmin
+        public boolean isFeatureAdmin(Identity identity) {
+            // return true if the current user is allowed to toggle features
+        }
+        
+    }
+
+%h2
+  SpringSecurityFeatureUserProvider
+
+%p
+  This implementation provides a way to integrate Togglz with Spring Security. To use this provider you have to add the following dependency to your project.
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring-security</artifactId>
+      <version>${togglz.version}</version>
+    </dependency>
+
+%p
+  To configure Togglz to use this provider, add it to your <code>FeatureManagerConfiguration</code>. Please note that you have to specify an authority name in the constructor of the class. Users with this authority will automatically be able to perform Togglz administration tasks.
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    
+        /* ..... */ 
+    
+        @Override
+        public FeatureUserProvider getFeatureUserProvider() {
+            return new SpringSecurityFeatureUserProvider("ADMIN_AUTHORITY");
+        }
+    }
