@@ -8,15 +8,6 @@ layout: base
 %p  
   Togglz has been developed in a very modular manner. This allows you to select exactly the components of the framework you want to use. The installation process in the documentation will be explained using Apache Maven. But of cause you can also use any other build system you want.
 
-%p
-  As first step it is recommended to add a property to you pom holding the Togglz version you want to use. 
-  
-%pre(class="prettyprint lang-xml")
-  :escaped
-    <properties>
-      <togglz.version>1.0.0.Alpha3</togglz.version>
-    </properties>
-
 %p  
   The Togglz artifacts are deployed to the Togglz Maven Repository on GitHub. So you will typically have to add the following repository declaration to your pom:
   
@@ -40,28 +31,28 @@ layout: base
     <dependency>
       <groupId>org.togglz</groupId>
       <artifactId>togglz-servlet</artifactId>
-      <version>${togglz.version}</version>
+      <version>#{site.stableVersion}</version>
     </dependency>
     
     <!-- CDI integration (optional) -->
     <dependency>
       <groupId>org.togglz</groupId>
       <artifactId>togglz-cdi</artifactId>
-      <version>${togglz.version}</version>
+      <version>#{site.stableVersion}</version>
     </dependency>
     
     <!-- Spring integration (optional) -->
     <dependency>
       <groupId>org.togglz</groupId>
       <artifactId>togglz-spring</artifactId>
-      <version>${togglz.version}</version>
+      <version>#{site.stableVersion}</version>
     </dependency>
     
     <!-- JSF integration (optional) -->
     <dependency>
       <groupId>org.togglz</groupId>
       <artifactId>togglz-jsf</artifactId>
-      <version>${togglz.version}</version>
+      <version>#{site.stableVersion}</version>
     </dependency> 
 
 %p  

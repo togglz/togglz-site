@@ -28,8 +28,14 @@
                 %a{:href=>'/'}
                   Home
               %li
-                %a{:href=>'/download.html'}
+                %a{:href=>'http://chkal.github.com/togglz/repository/org/togglz/'}
                   Downloads
+              %li
+                %a{:href=>'https://github.com/chkal/togglz'}
+                  Source Code
+              %li
+                %a{:href=>'https://github.com/chkal/togglz/issues'}
+                  Issue Tracker
               %li.nav-header
                 Reference
               %li
@@ -61,11 +67,8 @@
               %li
                 %a{:href=>'/documentation/authentication.html'}
                   User Authentication
-        .span9
+        .span9.content
           ~ content
       %hr
       %footer
         %p &copy; Christian Kaltepoth #{Date.today.year}
-    -# Uncomment script tags (remove leading -#) when you're ready to use behaviors
-    -# %script{ :type=>'text/javascript', :src=>'//cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js' }
-    -# %script{ :type=>'text/javascript', :src=>'/javascripts/bootstrap-collapse.js' }

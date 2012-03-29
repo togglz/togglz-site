@@ -1,12 +1,9 @@
 // I gather this file is a starting point for the project.
 @import "bootstrap";
 
-// Include responsive Bootstrap styles
-// @import "bootstrap-responsive";
-
 /*
  * ================================
- *             Header
+ *             Layout
  * ================================
  */
  
@@ -24,13 +21,6 @@
   font-size: 30px;
 }
 
-
-/*
- * ================================
- *           Navigation
- * ================================
- */
- 
 #navigation {
   border: 1px solid black;
   background-color: #eee;
@@ -38,10 +28,47 @@
   border-radius: 10px;
 }
 
+/*
+ * ================================
+ *             Common
+ * ================================
+ */
+
+/* commons */
+
 .calign {
   text-align: center;
-} 
+}
 
-.togglz .prettyprint {
+
+/* headers and text */
+
+.togglz .content h1 {
+  padding-top: 0.2em;
+  padding-bottom: 0.3em;
+}
+
+.togglz .content h2 {
+  padding-top: 0.2em;
+  padding-bottom: 0.3em;
+}
+
+.togglz .content h3 {
+  padding-top: 0.2em;
+  padding-bottom: 0.3em;
+}
+
+.togglz code {
+  color: #D14;
+  background-color: inherit;
+  border: none;
+}
+
+.togglz pre.prettyprint {
   padding: 10px;
+  margin: 12px 0 18px 0;
+}
+
+.togglz .content img.content-image {
+  margin: 12px 0 18px 0;
 }
