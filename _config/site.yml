@@ -1,2 +1,9 @@
 stableVersion: 1.0.0.Alpha3
 developmentVersion: 1.0.0-SNAPSHOT
+profiles:
+  development:
+  production:
+    base_url: http://www.togglz.org/
+    deploy:
+      host: www.togglz.org
+      path: /home/www/togglz.org/htdocs
