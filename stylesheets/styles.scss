@@ -40,7 +40,6 @@
   text-align: center;
 }
 
-
 /* headers and text */
 
 .togglz .content h1 {
@@ -58,6 +57,14 @@
   padding-bottom: 0.3em;
 }
 
+.togglz .content .biglink {
+  font-size: 20px; 
+  text-align: center;
+  font-family: monospace;
+  padding: 10px 0px;
+  display: block;
+}
+
 .togglz code {
   color: #D14;
   background-color: inherit;
@@ -67,6 +74,7 @@
 .togglz pre.prettyprint {
   padding: 10px;
   margin: 12px 0 18px 0;
+  border-radius: 6px;
 }
 
 .togglz .content img.content-image {

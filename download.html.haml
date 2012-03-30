@@ -1,0 +1,94 @@
+---
+layout: base
+---
+
+%h1
+  Download
+
+%h2
+  Apache Maven
+
+%p  
+  The Togglz artifacts are currently only available in the 
+  <a href="http://chkal.github.com/togglz/repository/org/togglz">Togglz Maven Repository</a> 
+  on <a href="https://github.com/">GitHub</a>. So you will typically have to add the following repository 
+  declaration to your <code>pom.xml</code>:
+  
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <repository>
+      <id>togglz</id>
+      <name>Togglz Maven Repository</name>
+      <url>http://chkal.github.com/togglz/repository/</url>
+    </repository>
+
+%p
+  Togglz has been developed in a very modular manner. This allows you to select exactly the components of the 
+  framework that you want to use.
+  
+%p
+  The Togglz Servlet module is the only module that is mandatory:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz for Servlet environments (mandatory) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-servlet</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+
+%p
+  Beside this there are a number of optional artifacts that provide additional functionatlity or integration 
+  with third party frameworks:
+  
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- The web-based admin console -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-console</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>   
+
+    <!-- CDI integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-cdi</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+    
+    <!-- Spring integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+    
+    <!-- JSF integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-jsf</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency> 
+    
+    <!-- Seam Security integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-seam-security</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+    
+    <!-- Spring Security integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring-security</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>    
+    
+    <!-- Apache Shiro integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-shiro</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>    

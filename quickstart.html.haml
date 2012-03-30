@@ -111,7 +111,7 @@ layout: base
     Please refer to <a href="/documentation/repositories.html">Feature State Repositories</a> for details.
   %li
     <code>getFeatureUserProvider()</code>: This method returns a provider class that is responsible to tell the FeatureManager 
-    which is the *current user*. Togglz provides out-of-the-box integration with many popular security frameworks. 
+    which is the <i>current user</i>. Togglz provides out-of-the-box integration with many popular security frameworks. 
     Please refer to <a href="/documentation/authentication.html">User Authentication</a> for details.
 
 %h2
@@ -152,7 +152,11 @@ layout: base
   your <code>/WEB-INF/web.xml</code>. Please refer to <a href="/documentation/installation.html">Installation</a> for details.
 
 %p
-  The admin console will be available in a virtual path named <code>togglz</code> within you application. So if you application is deployed to a context path named <code>myapp</code> within the container, you will have to use the following URL: [http://localhost:8080/myapp/togglz/](http://localhost:8080/myapp/togglz/)
+  The admin console will be available in a virtual path named <code>togglz</code> within you application. So if you application is deployed to a context path named <code>myapp</code> within the container, you will have to use the following URL: 
+
+%p.calign
+  %a(href='http://localhost:8080/myapp/togglz/' class='biglink')
+    http://localhost:8080/myapp/togglz/
 
 %h2
   JSF integration
