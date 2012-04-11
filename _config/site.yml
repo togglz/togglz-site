@@ -4,6 +4,7 @@ profiles:
   development:
   production:
     base_url: http://www.togglz.org/
+    google_analytics: UA-7295879-8
     deploy:
       host: www.togglz.org
       path: /home/www/togglz.org/htdocs
