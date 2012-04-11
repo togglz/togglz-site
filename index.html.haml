@@ -5,18 +5,75 @@ layout: base
 %h1
   Welcome to Togglz
 
-%p
-  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore 
-  et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-  Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
-  consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-  sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no 
-  sea takimata sanctus est Lorem ipsum dolor sit amet.
+%h2
+  What is Togglz?
 
-%pre{ :class=>'prettyprint lang-java' }
-  :plain
-    public class Test {
-      public String getName(int ii) {
-        // TODO
+%p
+  Togglz is an implementation of the <a href="http://martinfowler.com/bliki/FeatureToggle.html">Feature Toggles</a> pattern for Java.
+  Feature Toggles are a very common agile development practices in the context of continuous deployment and delivery.
+  The basic idea is to associate a toggle with each new feature you are working on. This allows you to enable or disable these
+  features at application runtime, even for individual users. 
+
+%h2
+  Why should you choose Togglz
+
+%p
+  %b
+    Togglz...
+  
+%ul
+  %li
+    allows you to declare your features using a regular Java enum type.
+  %li
+    is configured in a type-safe way by implementing a single interface.
+  %li
+    provides integration with popular frameworks like CDI, Spring, JSF, etc.
+  %li
+    supports different backends for storing toggle states (JDBC database, Java property files, etc)
+  %li
+    can be integrated with your user identity management which allows to enable features only for specific users.
+  %li
+    integrates with common security frameworks like JAAS, Spring Security, Seam Security and Apache Shiro. 
+  %li
+    supports complex application packaging scenarios like EARs, skinny WARs, etc.
+  %li
+    ships with an embedded web-based admin console to manage feature states. 
+
+%h2
+  Example
+  
+%p
+  Features are declared using a regular Java enum type:
+  
+%pre(class="prettyprint lang-java")
+  :escaped
+    public enum MyFeatures implements Feature {
+    
+        @Label("First Feature")
+        FEATURE_ONE,
+        
+        @Label("Second Feature")
+        FEATURE_TWO;
+        
+        public boolean isActive() {
+            return FeatureContext.getFeatureManager().isActive(this);
+        }
+        
+    }
+
+%p
+  Checking whether a specific feature is enabled for the current user is very simple. Just call the <code>isActive()</code>
+  method on the feature.
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public void someBusinessMethod() {
+    
+      if( MyFeatures.FEATURE_ONE.isActive() ) {
+        // do new exciting stuff here
       }
-    }  
+
+      [...]
+      
+    }
+  
