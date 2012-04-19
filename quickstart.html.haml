@@ -88,8 +88,8 @@ layout: base
             return MyFeatures.class;
         }
     
-        public FeatureStateRepository getFeatureStateRepository() {
-            return new FileBasedRepository(new File("/somewhere/features.properties"));
+        public StateRepository getStateRepository() {
+            return new FileBasedStateRepository(new File("/somewhere/features.properties"));
         }
     
         public FeatureUserProvider getFeatureUserProvider() {
@@ -105,8 +105,8 @@ layout: base
   %li
     <code>getFeatureClass()</code>: This method is used to tell Togglz about your feature enum. Just return the class of the enum here.
   %li
-    <code>getFeatureStateRepository()</code>: This method must return the feature state repository which is responsible to persist 
-    the state of features. This example uses the <code>FileBasedRepository</code> which uses Java property files to save the
+    <code>getStateRepository()</code>: This method must return the feature state repository which is responsible to persist 
+    the state of features. This example uses the <code>FileBasedStateRepository</code> which uses Java property files to save the
     feature state. But Toggles provides several other implementations. 
     Please refer to <a href="/documentation/repositories.html">Feature State Repositories</a> for details.
   %li

@@ -63,8 +63,8 @@ layout: base
             return MyFeatures.class;
         }
     
-        public FeatureStateRepository getFeatureStateRepository() {
-            return new FileBasedRepository(new File("/somewhere/features.properties"));
+        public StateRepository getStateRepository() {
+            return new FileBasedStateRepository(new File("/somewhere/features.properties"));
         }
     
         public FeatureUserProvider getFeatureUserProvider() {
@@ -83,7 +83,7 @@ layout: base
   This method is the easiest to implement. It is used to tell Togglz about the feature enum class you want to use. You simply return the Class object of your feature enum here.
 
 %h3
-  getFeatureStateRepository()
+  getStateRepository()
 
 %p
   This method allows you to select the feature state repository you would like to use. The feature state repository is responsible to persist the current state of your features. It knows which features are enabled/disabled and knows about the optional user list that can be attached to a feature.

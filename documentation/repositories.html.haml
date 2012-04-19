@@ -22,16 +22,16 @@ layout: base
   This section will describe the repository implementations that are available in Togglz.
 
 %h2
-  InMemoryRepository
+  InMemoryStateRepository
 
 %p
   This repository stores the feature state entirely in memory. As the repository isn't able to persist the feature state across JVM restarts it isn't typically used in production. Instead it may be useful during development time and in integration tests.
 
 %h2
-  FileBasedRepository
+  FileBasedStateRepository
 
 %p
-  The <code>FileBasedRepository</code> stores the state of features in a regular Java properties file. This repository is very easy to set up. The file based approach has some advantages compared to the other repository implementations. The most import advantage is that you are able to manually modify the properties file if you have direct access to the server running the application. This way you can very easily toggle features without the need to enable the embedded Togglz admin console.
+  The <code>FileBasedStateRepository</code> stores the state of features in a regular Java properties file. This repository is very easy to set up. The file based approach has some advantages compared to the other repository implementations. The most import advantage is that you are able to manually modify the properties file if you have direct access to the server running the application. This way you can very easily toggle features without the need to enable the embedded Togglz admin console.
 
 %p
   The property files used by this repository have a very simple format:
@@ -55,14 +55,14 @@ layout: base
         /* ..... */ 
     
         @Override
-        public FeatureStateRepository getFeatureStateRepository() {
-            return new FileBasedRepository(new File("/opt/myapp/config/features.properties"));
+        public StateRepository getStateRepository() {
+            return new FileBasedStateRepository(new File("/opt/myapp/config/features.properties"));
         }
     
     }
 
 %h2
-  JDBCFeatureStateRepository
+  JDBCStateRepository
 
 %p
   This repository is able to store the feature state in regular SQL database. The implementation uses the standard Java JDBC API and just requires you to specific a <code>DataSource</code>.
@@ -81,11 +81,11 @@ layout: base
         /* ..... */ 
     
         @Override
-        public FeatureStateRepository getFeatureStateRepository() {
-            return new JDBCFeatureStateRepository(dataSource);
+        public StateRepository getStateRepository() {
+            return new JDBCStateRepository(dataSource);
         }
     
     }
 
 %p
-  Please note that you won't have to manually create any database tables for the repository to work correctly. <code>JDBCFeatureStateRepository</code> will automatically create the required table on the first connection to the database. 
+  Please note that you won't have to manually create any database tables for the repository to work correctly. <code>JDBCStateRepository</code> will automatically create the required table on the first connection to the database. 
