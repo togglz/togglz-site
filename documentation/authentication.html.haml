@@ -16,7 +16,7 @@ layout: base
 
 %p
   The strategy to obtain the current user is represented by the <code>FeatureUserProvider</code> interface. You can choose 
-  which strategy is used by implementing <code>FeatureManagerConfiguration.getFeatureUserProvider()</code> like 
+  which strategy is used by implementing <code>TogglzConfig.getFeatureUserProvider()</code> like 
   described in <a href="/documentation/configuration.html">Configuration</a>.
 
 %p
@@ -29,11 +29,11 @@ layout: base
   This class is especially useful if your application is integrated with the authentication facilities of your container. It uses <code>HttpServletRequest.getUserPrincipal()</code> for obtaining the name of the current user and <code>HttpServletRequest.isUserInRole()</code> to check if the user is allowed to configure feature state using the admin console. You can optionally choose which role a user must have by specifying the group name in the constructor. 
 
 %p
-  The the following implementation of <code>FeatureManagerConfiguration</code> for an example:
+  The the following implementation of <code>TogglzConfig</code> for an example:
 
 %pre(class="prettyprint lang-java")
   :escaped
-    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    public class MyTogglzConfiguration implements TogglzConfig {
     
         /* ..... */ 
     
@@ -62,22 +62,22 @@ layout: base
         boolean isAdmin = ...;
     
         FeatureUser user = new SimpleFeatureUser(username, isAdmin);
-        ThreadLocalFeatureUserProvider.setFeatureUser(user);
     
+        ThreadLocalFeatureUserProvider.bind(user);
         try {
             chain.doFilter(request, response);
         } finally {
-            ThreadLocalFeatureUserProvider.setFeatureUser(null);
+            ThreadLocalFeatureUserProvider.release();
         }
     
     }
 
 %p
-  The register the <code>ThreadLocaleFeatureUserProvider</code> in your <code>FeatureManagerConfiguration</code> like this:
+  The register the <code>ThreadLocaleFeatureUserProvider</code> in your <code>TogglzConfig</code> like this:
 
 %pre(class="prettyprint lang-java")
   :escaped
-    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    public class MyTogglzConfiguration implements TogglzConfig {
     
         /* ..... */ 
     
@@ -102,11 +102,11 @@ layout: base
     </dependency>
 
 %p
-  To use this <code>FeatureUserProvider</code>, register it in your <code>FeatureManagerConfiguration</code> like this:
+  To use this <code>FeatureUserProvider</code>, register it in your <code>TogglzConfig</code> like this:
 
 %pre(class="prettyprint lang-java")
   :escaped
-    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    public class MyTogglzConfiguration implements TogglzConfig {
     
         /* ..... */ 
     
@@ -146,11 +146,11 @@ layout: base
     </dependency>
 
 %p
-  To configure Togglz to use this provider, add it to your <code>FeatureManagerConfiguration</code>. Please note that you have to specify an authority name in the constructor of the class. Users with this authority will automatically be able to perform Togglz administration tasks.
+  To configure Togglz to use this provider, add it to your <code>TogglzConfig</code>. Please note that you have to specify an authority name in the constructor of the class. Users with this authority will automatically be able to perform Togglz administration tasks.
 
 %pre(class="prettyprint lang-java")
   :escaped
-    public class MyTogglzConfiguration implements FeatureManagerConfiguration {
+    public class MyTogglzConfiguration implements TogglzConfig {
     
         /* ..... */ 
     

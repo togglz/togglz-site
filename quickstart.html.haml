@@ -77,12 +77,12 @@ layout: base
     }
 
 %p
-  The next step is to create an implementation of <code>FeatureManagerConfiguration</code>:
+  The next step is to create an implementation of <code>TogglzConfig</code>:
 
 %pre(class="prettyprint lang-java")
   :escaped
     @ApplicationScoped
-    public class DemoConfiguration implements FeatureManagerConfiguration {
+    public class DemoConfiguration implements TogglzConfig {
     
         public Class<? extends Feature> getFeatureClass() {
             return MyFeatures.class;

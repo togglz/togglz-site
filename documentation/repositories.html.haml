@@ -15,7 +15,7 @@ layout: base
     The user list associated with the feature
 
 %p
-  Users are able to choose the repository they want in their <code>FeatureManagerConfiguration</code> implementation. Pleas see the 
+  Users are able to choose the repository they want in their <code>TogglzConfig</code> implementation. Pleas see the 
   <a href="/documentation/installation.html">Installation</a> chapter for details.
 
 %p
@@ -46,11 +46,11 @@ layout: base
     FEATURE_ONE.users=admin,betatester
 
 %p
-  The following example shows a <code>FeatureManagerConfiguration</code> that uses this repository:
+  The following example shows a <code>TogglzConfig</code> that uses this repository:
 
 %pre(class="prettyprint lang-java")
   :escaped
-    public class FileBasedTogglzConfiguration implements FeatureManagerConfiguration {
+    public class FileBasedTogglzConfiguration implements TogglzConfig {
     
         /* ..... */ 
     
@@ -73,7 +73,7 @@ layout: base
 %pre(class="prettyprint lang-java")
   :escaped
     @ApplicationScoped
-    public class DatabaseTogglzConfiguration implements FeatureManagerConfiguration {
+    public class DatabaseTogglzConfiguration implements TogglzConfig {
     
         @Resource(mappedName = "jboss/datasources/ExampleDS")
         private DataSource dataSource;
