@@ -15,15 +15,15 @@ layout: base
     Togglz needs to know which users should be allowed to use the Togglz Admin Console.
 
 %p
-  The strategy to obtain the current user is represented by the <code>FeatureUserProvider</code> interface. You can choose 
-  which strategy is used by implementing <code>TogglzConfig.getFeatureUserProvider()</code> like 
+  The strategy to obtain the current user is represented by the <code>UserProvider</code> interface. You can choose 
+  which strategy is used by implementing <code>TogglzConfig.getUserProvider()</code> like 
   described in <a href="/documentation/configuration.html">Configuration</a>.
 
 %p
   Togglz ships with a number of default implementations for integrating with different user management scenarios. The following section will describe each of them in detail.
 
 %h2
-  ServletFeatureUserProvider
+  ServletUserProvider
 
 %p
   This class is especially useful if your application is integrated with the authentication facilities of your container. It uses <code>HttpServletRequest.getUserPrincipal()</code> for obtaining the name of the current user and <code>HttpServletRequest.isUserInRole()</code> to check if the user is allowed to configure feature state using the admin console. You can optionally choose which role a user must have by specifying the group name in the constructor. 
@@ -38,16 +38,16 @@ layout: base
         /* ..... */ 
     
         @Override
-        public FeatureUserProvider getFeatureUserProvider() {
-            return new ServletFeatureUserProvider("ADMIN_ROLE");
+        public UserProvider getUserProvider() {
+            return new ServletUserProvider("ADMIN_ROLE");
         }
     }
 
 %h2
-  ThreadLocalFeatureUserProvider
+  ThreadLocalUserProvider
 
 %p
-  Many applications are using servlet filters to implement authentication. In these scenarios authentication is typically done for a single request received by the application. If you are using such a pattern for user authentication you can use <code>ThreadLocalFeatureUserProvider</code> to tell Togglz about the current user.
+  Many applications are using servlet filters to implement authentication. In these scenarios authentication is typically done for a single request received by the application. If you are using such a pattern for user authentication you can use <code>ThreadLocalUserProvider</code> to tell Togglz about the current user.
 
 %p
   This implementation allows to store the current user in a ThreadLocal object for the current request. The only thing you have to do is to set the current user from your filter like this:
@@ -63,17 +63,17 @@ layout: base
     
         FeatureUser user = new SimpleFeatureUser(username, isAdmin);
     
-        ThreadLocalFeatureUserProvider.bind(user);
+        ThreadLocalUserProvider.bind(user);
         try {
             chain.doFilter(request, response);
         } finally {
-            ThreadLocalFeatureUserProvider.release();
+            ThreadLocalUserProvider.release();
         }
     
     }
 
 %p
-  The register the <code>ThreadLocaleFeatureUserProvider</code> in your <code>TogglzConfig</code> like this:
+  The register the <code>ThreadLocaleUserProvider</code> in your <code>TogglzConfig</code> like this:
 
 %pre(class="prettyprint lang-java")
   :escaped
@@ -82,13 +82,13 @@ layout: base
         /* ..... */ 
     
         @Override
-        public FeatureUserProvider getFeatureUserProvider() {
-            return new ThreadLocaleFeatureUserProvider();
+        public UserProvider getUserProvider() {
+            return new ThreadLocaleUserProvider();
         }
     }
 
 %h2
-  SeamSecurityFeatureUserProvider
+  SeamSecurityUserProvider
 
 %p
   This provider implementation offers a very simple way to integrate Togglz with Seam Security. This provider can be used after adding the following dependency to your project:
@@ -102,7 +102,7 @@ layout: base
     </dependency>
 
 %p
-  To use this <code>FeatureUserProvider</code>, register it in your <code>TogglzConfig</code> like this:
+  To use this <code>UserProvider</code>, register it in your <code>TogglzConfig</code> like this:
 
 %pre(class="prettyprint lang-java")
   :escaped
@@ -111,8 +111,8 @@ layout: base
         /* ..... */ 
     
         @Override
-        public FeatureUserProvider getFeatureUserProvider() {
-            return new SeamSecurityFeatureUserProvider();
+        public UserProvider getUserProvider() {
+            return new SeamSecurityUserProvider();
         }
     }
 
@@ -132,7 +132,7 @@ layout: base
     }
 
 %h2
-  SpringSecurityFeatureUserProvider
+  SpringSecurityUserProvider
 
 %p
   This implementation provides a way to integrate Togglz with Spring Security. To use this provider you have to add the following dependency to your project.
@@ -155,7 +155,7 @@ layout: base
         /* ..... */ 
     
         @Override
-        public FeatureUserProvider getFeatureUserProvider() {
-            return new SpringSecurityFeatureUserProvider("ADMIN_AUTHORITY");
+        public UserProvider getUserProvider() {
+            return new SpringSecurityUserProvider("ADMIN_AUTHORITY");
         }
     }

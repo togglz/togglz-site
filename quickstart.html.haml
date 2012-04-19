@@ -92,8 +92,8 @@ layout: base
             return new FileBasedStateRepository(new File("/somewhere/features.properties"));
         }
     
-        public FeatureUserProvider getFeatureUserProvider() {
-            return new ServletFeatureUserProvider();
+        public UserProvider getUserProvider() {
+            return new ServletUserProvider();
         }
     
     }
@@ -110,7 +110,7 @@ layout: base
     feature state. But Toggles provides several other implementations. 
     Please refer to <a href="/documentation/repositories.html">Feature State Repositories</a> for details.
   %li
-    <code>getFeatureUserProvider()</code>: This method returns a provider class that is responsible to tell the FeatureManager 
+    <code>getUserProvider()</code>: This method returns a provider class that is responsible to tell the FeatureManager 
     which is the <i>current user</i>. Togglz provides out-of-the-box integration with many popular security frameworks. 
     Please refer to <a href="/documentation/authentication.html">User Authentication</a> for details.
 

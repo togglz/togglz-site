@@ -67,8 +67,8 @@ layout: base
             return new FileBasedStateRepository(new File("/somewhere/features.properties"));
         }
     
-        public FeatureUserProvider getFeatureUserProvider() {
-            return new ServletFeatureUserProvider();
+        public UserProvider getUserProvider() {
+            return new ServletUserProvider();
         }
     
     }
@@ -96,13 +96,13 @@ layout: base
   The example shows how to configure a feature state repository that reads the current feature state from an external file.
 
 %h3
-  getFeatureUserProvider()
+  getUserProvider()
 
 %p
-  This method returns an implementation of the <code>FeatureUserProvider</code> interface which is responsible to tell the FeatureManager who is the *current user*. Knowing about the current user is essential for Togglz because it is possible to enable features only for specific users.
+  This method returns an implementation of the <code>UserProvider</code> interface which is responsible to tell the FeatureManager who is the *current user*. Knowing about the current user is essential for Togglz because it is possible to enable features only for specific users.
 
 %p
-  This example uses the <code>ServletFeatureUserProvider</code> as the feature user provider. This implementation uses the <code>HttpServletRequest.getUserPrincipal()</code> to obtain the current user. Other strategies for user authorization will be described in a later chapter.
+  This example uses the <code>ServletUserProvider</code> as the feature user provider. This implementation uses the <code>HttpServletRequest.getUserPrincipal()</code> to obtain the current user. Other strategies for user authorization will be described in a later chapter.
 
 %h2
   Tell Togglz about your configuration class
