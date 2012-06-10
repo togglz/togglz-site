@@ -6,4 +6,4 @@ _tmp
 _rewrite.log
 .rvmrc
 .project
-
+.awestruct
