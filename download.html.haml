@@ -6,10 +6,24 @@ layout: base
   Download
 
 %h2
+  Manual Download
+  
+%p
+  Click the link below to download the latest release of Togglz. The ZIP file contains the Togglz core modules and all
+  the optional integration modules.
+
+%p.calign
+  %a(href='/downloads/togglz-#{site.stableVersion}.zip' class='biglink')
+    togglz-#{site.stableVersion}.zip
+
+%p
+  If you are using Apache Maven for your project, have a look at the following chapter.
+
+%h2
   Apache Maven
 
 %p  
-  The Togglz artifacts are currently only available in the 
+  The Togglz artifacts are available in the 
   <a href="http://chkal.github.com/togglz/repository/org/togglz">Togglz Maven Repository</a> 
   on <a href="https://github.com/">GitHub</a>. So you will typically have to add the following repository 
   declaration to your <code>pom.xml</code>:
@@ -39,7 +53,7 @@ layout: base
     </dependency>
 
 %p
-  Beside this there are a number of optional artifacts that provide additional functionatlity or integration 
+  Beside this there are a number of optional artifacts that provide additional functionality or integration 
   with third party frameworks:
   
 %pre(class="prettyprint lang-xml")
@@ -92,3 +106,11 @@ layout: base
       <artifactId>togglz-shiro</artifactId>
       <version>#{site.stableVersion}</version>
     </dependency>    
+    
+    <!-- Apache DeltaSpike integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-deltaspike</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>    
+    
