@@ -1,4 +1,4 @@
-stableVersion: 1.0.0.Alpha5
+stableVersion: 1.0.0.Alpha6
 developmentVersion: 1.0.0-SNAPSHOT
 profiles:
   development:
