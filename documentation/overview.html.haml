@@ -2,23 +2,132 @@
 layout: base
 ---
 
-:markdown
+%h1
   Overview
-  ========
 
-  Togglz is an implementation of the [Feature Toggles](http://martinfowler.com/bliki/FeatureToggle.html) pattern for Java. Feature Toggles are very useful especially in the context of agile development practices and are used by big sites like [Flickr](http://code.flickr.com/blog/2009/12/02/flipping-out/).
+%h2
+  About Feature Flags
+
+:markdown
+  Togglz is an implementation of the [Feature Toggles](http://martinfowler.com/bliki/FeatureToggle.html) pattern for Java. 
+  Feature Toggles are very useful especially in the context of agile development practices and are used by big sites 
+  like [Flickr](http://code.flickr.com/blog/2009/12/02/flipping-out/).
 
   [Martin Fowler](http://martinfowler.com/) defines Feature Toggles like this:
 
-  > The basic idea is to have a configuration file that defines a bunch of toggles for various features you have pending. The running application then uses these toggles in order to decide whether or not to show the new feature.
+%blockquote
+  %p
+    The basic idea is to have a configuration file that defines a bunch of toggles for various features you have pending. The 
+    running application then uses these toggles in order to decide whether or not to show the new feature.
 
-  So the basic idea is to define a toggle for each new feature you implement. As this toggle is disabled by default you can safely deploy the application to the production servers even if the feature is not completely finished and tested. If the feature implementation is complete you can enable it in the production system at any point in time.
+%p
+  So the basic idea is to define a toggle for each new feature you implement. As this toggle is disabled by 
+  default you can safely deploy the application to the production servers even if the feature is not completely 
+  finished and tested. If the feature implementation is complete you can enable it in the production system at 
+  any point in time.
 
+%p
   This concepts brings many advantages:
 
-  * You are able to deploy the application at any time. Even if not all features are completely implemented. Just disable the features that shouldn't be visible for the users.
-  * The deployment of a new version of your application doesn't mean all the changes are effective. You can do a **Dark Launch**, which means that you first deploy the new version and activate features at a later point in time.
-  * You can test a new feature in production by activating it only for a small group of beta testers. This is also known as **Dark Testing**.
-  * If you fine a serious bug in a new feature, you can immediately disable it until you are able to deploy a bugfix.
+%ul
+  %li
+    You are able to deploy the application at any time. Even if not all features are completely implemented. Just disable 
+    the features that shouldn't be visible for the users.
+  %li
+    The deployment of a new version of your application doesn't mean all the changes are effective. 
+    You can do a <b>Dark Launch</b>, which means that you first deploy the new version and activate features at a later point in time.
+  %li
+    You can test a new feature in production by activating it only for a small group of beta testers. 
+    This is also known as <b>Dark Testing</b>.
+  %li
+    If you fine a serious bug in a new feature, you can immediately disable it until you are able to deploy a bugfix.
 
-  *TODO: Write more about the core concepts of Togglz*
+%h2
+  About Togglz
+
+%p  
+  Togglz has been developed for providing simple to use feature flags for Java applications. 
+
+%p
+  The following table contains definitions for some basic terms. It is very important to understand these because
+  they will be used in the following sections. 
+
+%table.table-striped.definition
+  %thead
+    %tr
+      %th Term
+      %th Description
+  %tbody
+    %tr
+      %td.left feature
+      %td
+        A feature represents a single characteristic that you can enable or disable. Features in Togglz are represented by a
+        Java enum with one value for each feature.
+    %tr
+      %td.left enabled / disabled
+      %td
+        An feature is either enabled or disabled disabled for the entire application. But the fact that a feature is enabled 
+        doesn't automatically mean that all users are able to use it because the user list can be used to restrict for whom 
+        it is available. Disabled feature instead are definitively disabled for all the users.
+    %tr
+      %td.left active / inactive
+      %td
+        Whether a feature is active or not depends on the currently acting user. This is because features can be enabled only
+        for a specific list of users. For them the feature will be active while it is inactive for all others.  
+
+%p
+  Features are simply declared using a standard Java enum type. Annotations can be used to enrich the feature 
+  with additional metadata.
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public enum MyFeatures implements Feature {
+    
+        @Label("First Feature")
+        FEATURE_ONE,
+        
+        @Label("Second Feature")
+        @ActiveByDefault
+        FEATURE_TWO;
+        
+        public boolean isActive() {
+            return FeatureContext.getFeatureManager().isActive(this);
+        }
+        
+    }
+
+%p
+  The Togglz API has been developed in a way that makes it very easy to check whether a feature is active 
+  or not. Just call the <code>isActive()</code> method on the corresponding feature enum value. 
+  
+%pre(class="prettyprint lang-java")
+  :escaped
+    public void someBusinessMethod() {
+    
+      if( MyFeatures.FEATURE_ONE.isActive() ) {
+        // do new exciting stuff here
+      }
+      
+    }
+
+%h2
+  The feature state
+
+%p
+  A feature in Togglz has two properties:
+  
+%ul
+  %li
+    This <b>enabled</b> flag specifies whether a feature is currently turned on (enabled) or off (disabled).
+  %li
+    The optional <b>user list</b> can be used to limit a feature to a predefined list of users if it is enabled.
+
+The values of these to properties can be used to determine whether a feature is active for a user or not.
+
+%ul
+  %li
+    A feature is <b>active</b> if it is enabled and the user list of the feature is either empty or the currently acting user is included
+    in the user list.
+  %li
+    A feature is <b>inactive</b> if it is either disabled or it is enabled but the user is not listed in the user list of the feature. 
+    
