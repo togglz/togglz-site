@@ -9,10 +9,23 @@
  
 #header {
   padding: 20px;
+  background-color: #EBFFF4;
+  border-radius: 20px;
+  margin: 20px 0 15px 0;
 }
 
 #header #logo {
+  margin-left: 20px;
   height: 130px;
+}
+
+#header .subtitle {
+  vertical-align: bottom;
+  font-size: 30px;
+  font-weight: bold;
+  color: #999;
+  margin: 0 0 10px 20px;
+  display: inline-block;
 }
 
 #header h1 {
@@ -41,6 +54,13 @@ footer {
   margin-top: 10px;
 }
 
+.togglz .hero-unit {
+  width: 80%;
+  padding: 20px 30px;
+  border-radius: 10px;
+  margin: 0 0 20px auto;
+}
+
 /*
  * ================================
  *             Common
@@ -51,6 +71,10 @@ footer {
 
 .calign {
   text-align: center;
+}
+
+.ralign {
+  text-align: right;
 }
 
 /* headers and text */
