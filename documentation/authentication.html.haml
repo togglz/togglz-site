@@ -39,6 +39,9 @@ layout: base
   %li
     %a(href='#threadlocal')
       Thread Local Storage
+  %li
+    %a(href='#custom')
+      Custom Implementation
 
 %p
   The following section will describe each of them in detail.
@@ -221,4 +224,39 @@ layout: base
         }
     }
 
+%a(name='custom')
+%h2
+  Custom Implementation
+
+%p
+  If none of the default implementations fits you needs, you can always think about implementing a provider yourself. This is very easy.
+  You just have to implement a single method called <code>getCurrentUser()</code>.
+  
+%p
+  The following example shows an implementation which reads the username from a servlet request attribute: 
+   
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements TogglzConfig {
     
+        @Inject
+        private HttpServletRequest request;
+
+        /* ..... */ 
+    
+        @Override
+        public UserProvider getUserProvider() {
+            return new UserProvider() {
+                
+                @Override
+                public FeatureUser getCurrentUser() {
+                    
+                    String username = (String) request.getAttribute("username");
+                    boolean isAdmin = "admin".equals(username);
+                    
+                    return new SimpleFeatureUser(username, isAdmin);
+                    
+                }
+            };
+        }
+    }
