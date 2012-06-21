@@ -6,11 +6,12 @@ layout: base
   User Authentication
 
 %p
-  In some situations Togglz requires knowledge about the _current user_ that is acting in the application. The two most important reasons for this are:
+  In some situations Togglz requires knowledge about the _current user_ that is acting in the application. 
+  The two most important reasons for this are:
 
 %ul
   %li
-    Features can be enabled only for specific users. So Togglz requires the <i>current user</i> to tell if a feature is active or not.
+    Features can be enabled only for specific users.
   %li
     Togglz needs to know which users should be allowed to use the Togglz Admin Console.
 
@@ -20,8 +21,29 @@ layout: base
   described in <a href="/documentation/configuration.html">Configuration</a>.
 
 %p
-  Togglz ships with a number of default implementations for integrating with different user management scenarios. The following section will describe each of them in detail.
+  Togglz ships with a number of default implementations for integrating with different user management scenarios. 
+  
+%ul
+  %li
+    %a(href='#servlet')
+      Servlet Security API
+  %li
+    %a(href='#seamsecurity')
+      Seam 3 Security
+  %li
+    %a(href='#deltaspike')
+      Apache DeltaSpike Identity API
+  %li
+    %a(href='#springsecurity')
+      Spring Security
+  %li
+    %a(href='#threadlocal')
+      Thread Local Storage
 
+%p
+  The following section will describe each of them in detail.
+
+%a(name='servlet')
 %h2
   ServletUserProvider
 
@@ -43,6 +65,118 @@ layout: base
         }
     }
 
+%a(name='seamsecurity')
+%h2
+  SeamSecurityUserProvider
+
+%p
+  This provider implementation offers a very simple way to integrate Togglz with Seam Security. This provider can be used after adding the following dependency to your project:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-seam-security</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+
+%p
+  To use this provider, register it in your <code>TogglzConfig</code> like this:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements TogglzConfig {
+    
+        /* ..... */ 
+    
+        @Override
+        public UserProvider getUserProvider() {
+            return new SeamSecurityUserProvider();
+        }
+    }
+
+%p
+  Now implement an authorizer method for <code>@FeatureAdmin</code> like this:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class SeamSecurityAuthorizer {
+    
+        @Secures
+        @FeatureAdmin
+        public boolean isFeatureAdmin(Identity identity) {
+            // return true if the current user is allowed to toggle features
+        }
+        
+    }
+
+%a(name='deltaspike')
+%h2
+  DeltaSpikeUserProvider
+
+%p
+  This provider offers integration with the Apache DeltaSpike Identity API. To use this provider, add the following dependency
+  to your project:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-deltaspike</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+
+%p
+  Then change your <code>TogglzConfig</code> implementation to use the provider:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements TogglzConfig {
+    
+        /* ..... */ 
+    
+        @Override
+        public UserProvider getUserProvider() {
+            return new DeltaSpikeUserProvider();
+        }
+    }
+
+%p
+  Please note that the provider currently doesn't support to set the <i>feature admin</i> flag for a user. This is because the DeltaSpike
+  API for authorization isn't stable yet. So if you want to set the flag using some custom criterion, you can extend 
+  <code>DeltaSpikeUserProvider</code> and overwrite the <code>isFeatureAdmin(Identity)</code> method.
+
+%a(name='springsecurity')
+%h2
+  SpringSecurityUserProvider
+
+%p
+  This implementation provides a way to integrate Togglz with Spring Security. To use this provider you have to add the following dependency to your project.
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring-security</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+
+%p
+  To configure Togglz to use this provider, add it to your <code>TogglzConfig</code>. Please note that you have to specify an authority name in the constructor of the class. Users with this authority will automatically be able to perform Togglz administration tasks.
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements TogglzConfig {
+    
+        /* ..... */ 
+    
+        @Override
+        public UserProvider getUserProvider() {
+            return new SpringSecurityUserProvider("ADMIN_AUTHORITY");
+        }
+    }
+
+%a(name='threadlocal')
 %h2
   ThreadLocalUserProvider
 
@@ -73,7 +207,7 @@ layout: base
     }
 
 %p
-  The register the <code>ThreadLocaleUserProvider</code> in your <code>TogglzConfig</code> like this:
+  Then register the <code>ThreadLocaleUserProvider</code> in your <code>TogglzConfig</code> like this:
 
 %pre(class="prettyprint lang-java")
   :escaped
@@ -87,75 +221,4 @@ layout: base
         }
     }
 
-%h2
-  SeamSecurityUserProvider
-
-%p
-  This provider implementation offers a very simple way to integrate Togglz with Seam Security. This provider can be used after adding the following dependency to your project:
-
-%pre(class="prettyprint lang-xml")
-  :escaped
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-seam-security</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>
-
-%p
-  To use this <code>UserProvider</code>, register it in your <code>TogglzConfig</code> like this:
-
-%pre(class="prettyprint lang-java")
-  :escaped
-    public class MyTogglzConfiguration implements TogglzConfig {
     
-        /* ..... */ 
-    
-        @Override
-        public UserProvider getUserProvider() {
-            return new SeamSecurityUserProvider();
-        }
-    }
-
-%p
-  Now implement an authorizer method for <code>@FeatureAdmin</code> like this:
-
-%pre(class="prettyprint lang-java")
-  :escaped
-    public class SeamSecurityAuthorizer {
-    
-        @Secures
-        @FeatureAdmin
-        public boolean isFeatureAdmin(Identity identity) {
-            // return true if the current user is allowed to toggle features
-        }
-        
-    }
-
-%h2
-  SpringSecurityUserProvider
-
-%p
-  This implementation provides a way to integrate Togglz with Spring Security. To use this provider you have to add the following dependency to your project.
-
-%pre(class="prettyprint lang-xml")
-  :escaped
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-spring-security</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>
-
-%p
-  To configure Togglz to use this provider, add it to your <code>TogglzConfig</code>. Please note that you have to specify an authority name in the constructor of the class. Users with this authority will automatically be able to perform Togglz administration tasks.
-
-%pre(class="prettyprint lang-java")
-  :escaped
-    public class MyTogglzConfiguration implements TogglzConfig {
-    
-        /* ..... */ 
-    
-        @Override
-        public UserProvider getUserProvider() {
-            return new SpringSecurityUserProvider("ADMIN_AUTHORITY");
-        }
-    }
