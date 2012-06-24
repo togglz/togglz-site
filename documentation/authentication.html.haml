@@ -239,9 +239,6 @@ layout: base
   :escaped
     public class MyTogglzConfiguration implements TogglzConfig {
     
-        @Inject
-        private HttpServletRequest request;
-
         /* ..... */ 
     
         @Override
@@ -250,6 +247,8 @@ layout: base
                 
                 @Override
                 public FeatureUser getCurrentUser() {
+                
+                    HttpServletRequest request = HttpServletRequestHolder.get();
                     
                     String username = (String) request.getAttribute("username");
                     boolean isAdmin = "admin".equals(username);
@@ -260,3 +259,7 @@ layout: base
             };
         }
     }
+
+%p
+  Please note the <code>HttpServletRequestHolder</code> class which may be very useful if you are implementing a <code>UserProvider</code>
+  yourself because it allows to obtain the <code>HttpServletRequest</code> from anywhere in your application.  
