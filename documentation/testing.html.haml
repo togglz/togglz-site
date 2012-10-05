@@ -1,0 +1,158 @@
+---
+layout: base
+---
+
+%h1
+  Testing <span class="label label-important">since 1.1.0</span>
+
+%p
+  Togglz has to be properly initialized before it can be used. In most application setups this is done 
+  automatically. Unit tests are problematic in this regard, because they run in a minimal environment
+  and  test code that may use Togglz to control behavior. Togglz therefore 
+  provides extended support for managing feature state when running unit tests.
+
+%p
+  To add the Togglz testing support module, add the following dependency to your project. Please double check
+  that you add it only for the <strong>test</strong> scope.
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz testing support -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-testing</artifactId>
+      <version>#{site.stableVersion}</version>
+      <scope>test</scope>
+    </dependency> 
+
+%p
+  Including this dependency will automatically configure Togglz in a way that is considered the best default
+  behavior for unit tests. In this default setup every call to <code>isActive()</code> will return true, 
+  which means that all features are automatically active.
+
+%p
+  If you need more control over your feature state, you should have a look at the extended JUnit support that
+  is convered in the next section.
+
+%h2
+  JUnit support
+  
+%p
+  Togglz provides some extra goodies for JUnit users. If you are using JUnit, you should always
+  include the JUnit support module in your test depdencies.
+  
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz testing support -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-junit</artifactId>
+      <version>#{site.stableVersion}</version>
+      <scope>test</scope>
+    </dependency>
+
+%h3
+  TogglzRule
+
+%p
+  The first important feature of the JUnit integration module is the <code>TogglzRule</code>. This rule
+  allows to modify the feature state at runtime. This is especially useful if you want to
+  test a special combination of feature states.
+  
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class SomeJunitTest {
+    
+      @Rule
+      public TogglzRule togglzRule = TogglzRule.allEnabled(MyFeatures.class);
+    
+      @Test
+      public void testToggleFeature() {
+
+        // all features are active by default  
+        assertTrue(MyFeatures.FEATURE_ONE.isActive());
+
+        // you can easily modify the feature state using the TogglzRule
+        togglzRule.disable(MyFeatures.FEATURE_ONE);
+        assertFalse(MyFeatures.FEATURE_ONE.isActive());
+  
+      }
+    
+    }
+
+%p
+  To use the rule, declare a public field for <code>TogglzRule</code> as shown above and annotate it with
+  JUnit's <code>@Rule</code> annotation. <code>TogglzRule</code> provides static methods for creating a
+  preconfigured feature state. In this example the rule initally enables all features of the <code>MyFeatures</code>
+  enum.
+
+%p
+  The test first verifies that the feature is enabled. Then the method uses the <code>TogglzRule</code>
+  to alter the feature state by calling <code>disable()</code> for the feature. The rule provides methods 
+  for changing the state of individual features and bulk operations for enabling or disabling all feature 
+  toggles at once.
+  
+%h3
+  Feature variations
+
+%p
+  The JUnit integration module also allows to run tests with different combination of feature states. 
+  This works very similar to JUnit's <code>@Parameterized</code> annotation.
+  
+%p
+  Before explaining the details, see the following code:
+   
+%pre(class="prettyprint lang-java")
+  :escaped
+    @RunWith(FeatureVariations.class)
+    public class FeatureVariationsTest {
+    
+        @Variations
+        public static VariationSet<MyFeatures> getPermutations() {
+          return VariationSetBuilder.create(MyFeatures.class)
+                  .enable(MyFeatures.F1)
+                  .vary(MyFeatures.F2)
+                  .vary(MyFeatures.F3);
+        }
+    
+        // will be executed 4 times
+        @Test
+        public void test() {
+          assertTrue(MyFeatures.F1.isActive());
+          assertTrue(MyFeatures.F2.isActive() || !MyFeatures.F2.isActive());
+          assertTrue(MyFeatures.F3.isActive() || !MyFeatures.F3.isActive());
+        }
+    
+    }
+
+%p
+  To run your tests in different feature combinations, your test class has to be annotated with 
+  <code>@RunWith(FeatureVariations.class)</code>. This will tell JUnit to use a special JUnit runner 
+  called <code>FeatureVariations</code> for executing the test.
+
+%p
+  In the next step you have to create a public static method returning a <code>VariationSet</code> and annotate
+  it with <code>@Variations</code>. A <code>VariationSet</code> is used describe the feature combinations that 
+  you want the test to get executed with. Typically you should use <code>VariationSetBuilder</code> to build
+  the set, because it provides a fluent API for defining it. In the example shown above, the feature set will vary the features
+  F2 and F3 and keep F1 enabled. This means your test methods will be executed four times, once for each of these
+  combinations:
+
+%ul
+  %li
+    %code
+      F1=on, F2=off, F3=off
+  %li 
+    %code
+      F1=on, F2=on, F3=off
+  %li 
+    %code
+      F1=on, F2=off, F3=on
+  %li 
+    %code
+      F1=on, F2=on, F3=on
+
+%p
+  This way of running unit tests is very effective if you want to verify, that the state of a feature has
+  no effect on the output of your code.
