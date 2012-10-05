@@ -89,3 +89,32 @@ layout: base
 
 %p
   Please note that you won't have to manually create any database tables for the repository to work correctly. <code>JDBCStateRepository</code> will automatically create the required table on the first connection to the database. 
+
+%h2
+  CachingStateRepository <span class="label label-important">since 1.1.0</span>
+
+%p
+  This repository can be used to add caching behavior to an existing repository. It wraps the underlying
+  repository and caches state lookups for a predefined time.  
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class CachingTogglzConfiguration implements TogglzConfig {
+    
+        /* ..... */ 
+    
+        @Override
+        public StateRepository getStateRepository() {
+            StateRepository someOtherRepository = ...;
+            return new CachingStateRepository(someOtherRepository, 10000);
+        }
+    
+    }
+
+%p
+  This example shows how to use <code>CachingStateRepository</code> to act as a cache for another
+  repository. In this configuration it will cache results for 10 seconds. If you omit the timeout,
+  lookups will be cached until <code>setFeatureState()</code> is called for the specific feature. 
+  Using the cache without a timeout only makes sense if the repository state is never modified directly 
+  (by modifying the database table for example).
+  
