@@ -141,3 +141,63 @@ layout: base
       <param-name>org.togglz.core.manager.TogglzConfig</param-name>
       <param-value>com.example.myapp.MyTogglzConfiguration</param-value>
     </context-param>
+
+%h2
+  Feature Groups
+  
+%p
+  If you are using Togglz regularly, you will soon end up with a large number of feature toggles.
+  To make sure you don't get lost in all the different feature flags, Togglz allows to define group for features.
+
+%p
+  There are different ways of using feature groups you can think of:
+
+%ul
+  %li
+    Grouping by some category (e.g. Performance)  
+  %li
+    Grouping by application version number (e.g. Release 2.0)
+  %li
+    Separation of older feature flags that weren't removed 
+
+%p
+  To define a feature group, you have to create a custom annotation. See the following example:
+  
+%pre(class="prettyprint lang-java")
+  :escaped
+    @FeatureGroup
+    @Label("Performance Improvements")
+    @Target(ElementType.FIELD)
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Performance {
+      // no content
+    }
+
+%p
+  The annotation itself has to be annotated with <code>@FeatureGroup</code> to tell Togglz that the annotation
+  has to be handled as a feature group. The <code>@Label</code> annotation is optional and allows to define a custom
+  name for the group. If it is omitted, the name of the annotation will be used instead. The other two annotations
+  tell the compiler that the annotation is only allowed on fields and that it should be compiled into the resulting
+  class files.
+
+%p
+  To add features to the group, just add the new annotation to the feature enum like this: 
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public enum MyFeatures implements Feature {
+    
+        @Label("Enable database caching")
+        @Performance
+        DATABASE_CACHING,
+        
+        @Label("Some other one")
+        OTHER_FEATURE;
+
+        /* ... */        
+        
+    }
+
+%p
+  Feature groups will automatically show up as a separate tab in the <a href="admin-console.html">Togglz Admin Console</a>.
+  
