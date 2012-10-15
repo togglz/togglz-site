@@ -72,6 +72,13 @@ layout: base
       <artifactId>togglz-jsf</artifactId>
       <version>#{site.stableVersion}</version>
     </dependency> 
+
+    <!-- SLF4J logging bridge -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-slf4j</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
     
     <!-- Seam Security integration -->
     <dependency>
@@ -100,4 +107,21 @@ layout: base
       <artifactId>togglz-deltaspike</artifactId>
       <version>#{site.stableVersion}</version>
     </dependency>    
+
+    <!-- Testing support -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-testing</artifactId>
+      <version>#{site.stableVersion}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- JUnit integration -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-junit</artifactId>
+      <version>#{site.stableVersion}</version>
+      <scope>test</scope>
+    </dependency>
+
     
