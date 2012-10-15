@@ -1,0 +1,44 @@
+---
+layout: base
+---
+
+%h1
+  What's new?
+
+%p
+  This page contains some details about the latest changes made to Togglz and which new features have been added
+  in the recent releases.
+
+%a(name='1.1.0')
+%h2
+  Togglz 1.1.0.Final
+
+%ul
+  %li
+    The new <a href="/apidocs/1.1.0.Final/org/togglz/core/repository/cache/CachingStateRepository.html">CachingStateRepository</a> 
+    allows to add caching capabilities to existing state repositories. See the chapter on
+    <a href="/documentation/repositories.html#CachingStateRepository">State Repositories</a> for details. 
+  %li
+    The Spring integration module now contains the 
+    <a href="/apidocs/1.1.0.Final/org/togglz/spring/proxy/FeatureProxyFactoryBean.html">FeatureProxyFactoryBean</a>, which
+    allows to use different Spring beans depending on a specific feature state. The 
+    <a href="/documentation/usage.html#FeatureProxyFactoryBean">Usage</a> chapter contains concrete examples on how
+    to configure this factory bean.
+  %li
+    It's now possible to define groups of features. These groups will be displayed in different tabs in the
+    Togglz Admin Console. See the <a href="/documentation/configuration.html#feature-groups">Feature Groups</a>
+    chapter to learn how to setup these groups.
+  %li
+    Togglz now contains special support for handling feature toggles in unit tests. As part of this two new integration
+    modules have been added. The first one provides general support for unit testing and the second one offers
+    advanced support for JUnit. See the new <a href="/documentation/testing.html">Testing Support</a> chapter
+    for details.
+
+%h2
+  Togglz 1.0.0.Final
+
+%ul
+  %li
+    First official version. No changes since the last release. :)
+  
+  
