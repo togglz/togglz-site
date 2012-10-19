@@ -63,6 +63,35 @@ footer {
 
 /*
  * ================================
+ *             Home
+ * ================================
+ */
+
+.news {
+}
+
+.news .entry {
+  margin: 0 0 15px 10px;
+}
+
+.news .entry .date {
+  font-size: 12px;
+  color: gray;
+}
+
+.news .entry .heading {
+  font-size: 17px;
+  font-weight: bold;
+  margin: 3px 0 0 0;
+}
+
+.news .entry .content {
+  margin: 8px 0 0 10px;
+}
+
+
+/*
+ * ================================
  *             Common
  * ================================
  */

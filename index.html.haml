@@ -2,21 +2,11 @@
 layout: base
 ---
 
-.hero-unit
-  %h2
-    Togglz #{site.stableVersion} released
-  %p
-    The new version of Togglz has just been released. Have a look at
-    <a href="/whats-new.html">what's new</a> section to learn about the highlights of the release.
-  %p.ralign
-    %a.btn.btn-success(href='/download.html')
-      Get Togglz #{site.stableVersion}
-
 %h1
-  Welcome to Togglz
+  Togglz
 
 %h2
-  What is Togglz?
+  What is it about?
 
 %p
   Togglz is an implementation of the <a href="http://martinfowler.com/bliki/FeatureToggle.html">Feature Toggles</a> pattern for Java.
@@ -25,11 +15,50 @@ layout: base
   features at application runtime, even for individual users. 
 
 %h2
-  Why should you choose Togglz
+  News
+
+.news
+
+  .entry
+    .date 
+      18-Oct-2012
+    .heading
+      Togglz 1.1.0.Final released
+    .content
+      I'm very proud to announce the release of Togglz 1.1.0.Final. This version is the result of various feedback 
+      from the community. You can get the new version from the <a href="/download.html">download page</a> and check out 
+      <a href="/whats-new.html">what's new</a>.
+
+  .entry
+    .date 
+      01-Oct-2012
+    .heading
+      Togglz article in JavaMagazin 2012/11
+    .content
+      The current issue of the German 
+      <a href="http://it-republik.de/jaxenter/java-magazin-ausgaben/invokedynamic-000521.html">JavaMagazin</a>
+      comes with an article describing how to start practicing continuous delivery with Togglz. The article is called 
+      <i>On and off - Togglz: Feature Toggle für Java-Applikationen</i>. You are are speaking German and are interested
+      in Togglz? In this case you should get a copy of the latest JavaMagazin.
+
+  .entry
+    .date 
+      03-Jul-2012
+    .heading
+      Togglz session on gearconf 2012
+    .content
+      My Togglz session on <a href="http://gearconf.com/">gearconf 2012</a> was a huge success. I got awesome feedback
+      which confirmed, that Togglz is the perfect first step into the world of continuous delivery.
+      If you are interested in the session, you can have a look at the 
+      <a href="http://de.slideshare.net/chkal/feature-flags-mit-togglz">slides</a> and the 
+      <a href="https://vimeo.com/45076301">video</a> (both in German).
+
+%h2
+  Why should you choose Togglz?
 
 %p
   %b
-    Togglz...
+    Because Togglz...
   
 %ul
   %li
