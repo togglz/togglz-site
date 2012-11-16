@@ -6,28 +6,30 @@ layout: base
   Installation
 
 %p  
-  Togglz has been developed in a very modular manner. This allows you to select exactly the components of the framework you want to use. The installation process in the documentation will be explained using Apache Maven. But of cause you can also use any other build system you want.
+  Togglz has been developed in a very modular manner. This allows you to select exactly the 
+  components of the framework you want to use. The installation process in the documentation 
+  will be explained using Apache Maven. But of cause you can also use any other build system you want.
 
 %p  
-  The Togglz artifacts are deployed to the Togglz Maven Repository on GitHub. So you will typically have to add the following repository declaration to your pom:
-  
-%pre(class="prettyprint lang-xml")
-  :escaped
-    <repository>
-      <id>togglz</id>
-      <name>Togglz Maven Repository</name>
-      <url>http://chkal.github.com/togglz/repository/</url>
-    </repository>
-
-%p  
-  Now you have to add the Togglz dependencies to your project. The only required dependency is the <code>togglz-servlet</code> module which contains the core components for integrating Togglz into web applications.
+  First you have to add the Togglz dependencies to your project. 
+  The only required dependency is the <code>togglz-core</code> module.
+  If you want to integrate Togglz into a web application, you also have to add 
+  the <code>togglz-servlet</code> module. 
 
 %p
-  If your application uses CDI or Spring, you will typically want to add the corresponding integration modules.
+  If your application uses CDI or Spring, you will typically also want to add the corresponding 
+  integration modules.
 
 %pre(class="prettyprint lang-xml")
   :escaped
-    <!-- Togglz for Servlet environments (mandatory) -->
+    <!-- Togglz core module (mandatory) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-core</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+
+    <!-- Togglz for Servlet environments (mandatory for webapps) -->
     <dependency>
       <groupId>org.togglz</groupId>
       <artifactId>togglz-servlet</artifactId>
@@ -55,8 +57,10 @@ layout: base
       <version>#{site.stableVersion}</version>
     </dependency> 
 
-%p  
-  If you deploy your application to a container supporting Servlet 3.0, you won't have to do any further configuration. If your container doesn't support Servlet 3.0, you will have to add the following filter declaration to your <code>/WEB-INF/web.xml</code>:
+%p
+  If your app is a web application and your container supports Servlet 3.0, you won't have to do any 
+  further configuration. But if your container doesn't support the Servlet 3.0 specification, you will 
+  have to add the following filter declaration to your <code>/WEB-INF/web.xml</code>:
 
 %pre(class="prettyprint lang-xml")
   :escaped
