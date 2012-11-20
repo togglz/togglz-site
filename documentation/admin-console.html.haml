@@ -42,3 +42,33 @@ layout: base
 %p.calign
   %a(href='http://localhost:8080/myapp/togglz/' class='biglink')
     http://localhost:8080/myapp/togglz/
+
+%p
+  Please note that you will have to configure the user authentication as described in the
+  <a href="configuration.html">Configuration</a> and <a href="authentication.html">Authentication</a> 
+  chapters to be able to access the admin console.
+
+%p
+  If you just want to give it a try and don't want to walk thought the complete
+  configuration of the user authentication, you can simply configure a dummy <code>UserProvider</code>
+  that assigns administration privileges to every user:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class MyTogglzConfiguration implements TogglzConfig {
+
+        /* ..... */
+
+        @Override
+        public UserProvider getUserProvider() {
+            return new UserProvider() {
+                @Override
+                public FeatureUser getCurrentUser() {
+                    return new SimpleFeatureUser("admin", true);
+                }
+            };
+        }
+    }
+
+%p
+  Please don't use this in production environments. :)
