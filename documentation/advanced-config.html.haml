@@ -1,0 +1,212 @@
+---
+layout: base
+---
+
+%h1
+  Advanced Configuration
+
+%p
+  One of the mission statements of Togglz is that it should be easy to integrate into applications. As
+  described in the <a href="configuration.html">Configuration</a> chapter, this is especially easy for
+  web applications. If you want to integrate Togglz into other environments, you will typically have
+  to do some manual steps.
+
+%p
+  This chapter will cover how to bootstrap and use Togglz in the following environments:
+  
+%ul
+  %li
+    %a(href='#standalone')
+      Standalone Applications
+  %li
+    %a(href='#jee6')
+      EJBs and EAR packaging (JEE6)
+  %li
+    %a(href='#jee5')
+      EJBs and EAR packaging (JEE5 and older)
+
+%h2
+  Basic concept
+
+%p
+  Most of the strategies described in this chapter are based on the idea of implementing a custom
+  <code>FeatureManagerProvider</code>. This SPI is used by Togglz to find the <code>FeatureManager</code>
+  for the application. You can think of the <code>FeatureManager</code> as a central service
+  that manages the features of your application.
+
+%p
+  If you are using Togglz in a web application, the <code>FeatureManager</code> will be created automatically
+  during application startup. During this process Togglz will try to automatically find your implementation
+  of the <code>TogglzConfig</code> interface, which acts as the configuration for the <code>FeatureManager</code>.
+
+%p
+  Depending on the environment you want to integrate Togglz into, you may have to build the <code>FeatureManager</code>
+  yourself. Fortunately Togglz provides a class called <code>FeatureManagerBuilder</code> which simplifies this 
+  process. To build a <code>FeatureManager</code> that is configured using a <code>TogglzConfig</code> instance,
+  you can use this code:
+  
+%pre(class="prettyprint lang-java")
+  :escaped
+    FeatureManager manager = new FeatureManagerBuilder()
+            .togglzConfig(new MyTogglzConfig())
+            .build();
+
+%p
+  This is basically what Togglz does when starting up in a web application.
+
+%p
+  If you are using <code>FeatureManagerBuilder</code> to create your <code>FeatureManager</code>,
+  you don't even have to implement <code>TogglzConfig</code> at all. You can also simply configure all the
+  aspects of Togglz by calling the corresponding methods on the builder:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    FeatureManager manager = new FeatureManagerBuilder()
+            .featureClass(MyFeaturess.class)
+            .stateRepository(new InMemoryStateRepository())
+            .userProvider(new NoOpUserProvider())
+            .build();
+
+%p
+  Togglz uses an service provider interfaces called <code>FeatureManagerProvider</code> to find the
+  <code>FeatureManager</code> to use in the current execution context. Implementing this interface is very easy.
+  The only thing you have to think about is how to maintain (or obtain) the single <code>FeatureManager</code>
+  instance for your application.
+  The following sections will describe best practices for doing this in different environments and
+  advanced packaging scenarios.
+
+%h2
+  Environment Scenarios
+
+%a(name='standalone')
+%h3
+  Standalone Applications
+
+%p
+  Using Togglz in standalone applications requires some more work compared to applications which are deployed
+  to an application server.
+
+%p
+  In most cases standalone applications don't have such complex classloading configurations as application 
+  servers. Therefore you can typically use a simple singleton approach to manage the <code>FeatureManager</code>.
+
+%p
+  The following example shows an implementation of the <code>FeatureManagerProvider</code> that uses
+  this approach:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class SingletonFeatureManagerProvider implements FeatureManagerProvider {
+    
+        private static FeatureManager featureManager;
+    
+        @Override
+        public int priority() {
+            return 30;
+        }
+    
+        @Override
+        public synchronized FeatureManager getFeatureManager() {
+    
+            if (featureManager == null) {
+                featureManager = new FeatureManagerBuilder()
+                        .featureClass(MyFeaturess.class)
+                        .stateRepository(new InMemoryStateRepository())
+                        .userProvider(new NoOpUserProvider())
+                        .build();
+            }
+    
+            return featureManager;
+    
+        }
+    
+    }
+
+%p
+  To register the provider, take the fully qualified name of your implementation class and save it in a file called 
+  <code>META-INF/services/org.togglz.core.spi.FeatureManagerProvider</code> on your classpath. See
+  the docs of the <a href="#{site.jdkJavadocsBase}/java/util/ServiceLoader.html">ServiceLoader</a> class for a 
+  full description of the underlying mechanism.
+
+
+%a(name='jee6')
+%h3
+  EJBs and EAR packaging (JEE6)
+
+%p
+  If you want to use Togglz in an environment with EJB and/or EAR packaging and your application
+  server supports EJB 3.1, you can use an EJB singleton to manage the <code>FeatureManager</code>. To
+  do so, create an EJB singleton that builds the <code>FeatureManager</code> in the 
+  <code>@PostConstruct</code> method:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    @Singleton
+    public class FeatureManagerSingleton {
+    
+        private FeatureManager featureManager;
+    
+        @PostConstruct
+        public void init() {
+            featureManager = new FeatureManagerBuilder()
+                .featureClass(MyFeaturess.class)
+                .stateRepository(new InMemoryStateRepository())
+                .userProvider(new NoOpUserProvider())
+                .build();
+        }
+    
+        public FeatureManager getFeatureManager() {
+            return featureManager;
+        }
+    
+    }
+
+%p
+  Now you have to create an implementation of <code>FeatureManagerProvider</code> that uses the EJB singleton
+  to obtain the <code>FeatureManager</code>:
+  
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class EJBSingletonFeatureManagerProvider implements FeatureManagerProvider {
+    
+        @Override
+        public int priority() {
+            return 30;
+        }
+    
+        @Override
+        public FeatureManager getFeatureManager() {
+    
+            try {
+    
+                InitialContext context = new InitialContext();
+                FeatureManagerSingleton singleton = (FeatureManagerSingleton)
+                    context.lookup("java:module/FeatureManagerSingleton");
+                return singleton.getFeatureManager();
+    
+            } catch (NamingException e) {
+                return null;
+            }
+    
+        }
+    
+    }
+
+%p
+  To register the provider, take the fully qualified name of your implementation class and save it in a file called 
+  <code>META-INF/services/org.togglz.core.spi.FeatureManagerProvider</code> on your classpath. See
+  the docs of the <a href="#{site.jdkJavadocsBase}/java/util/ServiceLoader.html">ServiceLoader</a> class for a 
+  full description of the underlying mechanism.
+
+%p
+  If your EAR file also contains web applications and you want to use one shared <code>FeatureManager</code>
+  for the complete EAR artifact, you have to perform one additional step. In the default setup Togglz automatically
+  creates a local <code>FeatureManager</code> for a web application. To prevent this, add the following
+  configuration to your <code>web.xml</code>:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <context-param>
+      <param-name>org.togglz.LOCAL_FEATURE_MANAGER</param-name>
+      <param-value>false</param-value>
+    </context-param>
