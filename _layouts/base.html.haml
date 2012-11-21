@@ -95,9 +95,10 @@
               %li
                 %a{:href=>'/documentation/testing.html'}
                   Testing Support
-            .buildhive-icon
-              %a(href='https://buildhive.cloudbees.com/job/chkal/job/togglz/modules')
-                %img(src='https://buildhive.cloudbees.com/job/chkal/job/togglz/badge/icon')
+            - if site.showBuildStatus
+              .buildhive-icon
+                %a(href='https://buildhive.cloudbees.com/job/chkal/job/togglz/modules')
+                  %img(src='https://buildhive.cloudbees.com/job/chkal/job/togglz/badge/icon')
         .span9.content
           ~ content
       %hr
