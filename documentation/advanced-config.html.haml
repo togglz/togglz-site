@@ -199,8 +199,17 @@ layout: base
   full description of the underlying mechanism.
 
 %p
+  This will work fine for the EJB module itself, because the JNDI name used to lookup the singleton is relative
+  to that module. If you want a shared <code>FeatureManager</code> for all modules in your EAR,
+  you will have to change the JNDI name to something like this:
+
+%pre(class="prettyprint nocode")
+  :escaped
+    java:app/MyModule/FeatureManagerSingleton
+
+%p
   If your EAR file also contains web applications and you want to use one shared <code>FeatureManager</code>
-  for the complete EAR artifact, you have to perform one additional step. In the default setup Togglz automatically
+  for the complete EAR, you have to perform one additional step. In the default setup Togglz automatically
   creates a local <code>FeatureManager</code> for a web application. To prevent this, add the following
   configuration to your <code>web.xml</code>:
 
@@ -210,3 +219,8 @@ layout: base
       <param-name>org.togglz.LOCAL_FEATURE_MANAGER</param-name>
       <param-value>false</param-value>
     </context-param>
+
+%p
+  If you add this configuration and your custom <code>FeatureManagerProvider</code> is visible for your
+  web application, Togglz will automatically use the shared <code>FeatureManager</code> maintained by
+  the EJB singleton.
