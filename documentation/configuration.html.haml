@@ -6,13 +6,25 @@ layout: base
   Configuration
 
 %p
-  The configuration of Togglz is done using Java code. So you won't have to edit any XML files or something like that. 
+  This chapter will guide you through the Togglz configuration for web applications. As web applications
+  are a very common environment for Togglz, the configuration has been designed to be very easy there. 
+
+%p
+  If you want to use Togglz in a different environment or if you want to
+  share the Togglz configuration between different application modules, have a look at the
+  <a href="advanced-config.html">Advanced Configuration</a> chapter.
+
+%p
+  The configuration of Togglz is done using pure Java code. So you won't have to edit any XML files or 
+  something like that. 
 
 %h2
   Feature definition
 
 %p  
-  Configuring Togglz requires you to implement two classes. The first class is the feature enum which declares the features you want to manage with Togglz. This enum is a standard Java enum which implements the <code>Feature</code> interface.
+  Configuring Togglz requires you to implement two classes. The first class is the feature enum 
+  which declares the features you want to manage with Togglz. This enum is a standard Java enum 
+  which implements the <code>Feature</code> interface.
 
 %p
   The following example shows a typical feature enum:
