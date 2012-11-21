@@ -9,7 +9,8 @@
     <script type="text/javascript" src="/javascripts/prettify.js"></script>
     /[if lt IE 9]
       %script{ :type=>'text/javascript', :src=>'//html5shim.googlecode.com/svn/trunk/html5.js' }
-    = google_analytics_async
+    - if site.google_analytics
+      = google_analytics_async
   %body{ :onload => 'prettyPrint()' }
     .container.togglz
       .row
