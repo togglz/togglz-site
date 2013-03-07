@@ -9,6 +9,33 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.0.0.Alpha1')
+%h2
+  Togglz 2.0.0.Alpha1
+
+%ul
+  %li
+    The most noteworthy change in this version is the new extensible feature activation mechanism, that allows 
+    to implement custom strategies for activating features based on arbitrary conditions. As you know, Togglz already
+    allowed to restrict features to a given list of users. Togglz 2.0.0.Alpha1 now also supports to activate features 
+    for a given percentage of users (gradual rollouts) or at a specific point in time (timed rollouts). 
+    There is also an generic strategy based on Java's 
+    <a href="http://docs.oracle.com/javase/7/docs/api/javax/script/ScriptEngine.html">ScriptEngine</a>, 
+    that allows you to write strategies using script languages (like JavaScript) and update them at runtime.
+  %li
+    As Togglz now allows to implement custom strategies for activating features, the data model of the persisted
+    feature state had to change. Togglz will automatically migrate the data persisted by previous versions  
+    (like the properties file or the database table) to the new format. However this has one drawback. 
+    Older versions of Togglz won't be able to read the new data format any more. So going back to an older version
+    of Togglz will be difficult. <u>So please take special care and backup your state repository data</u>.
+  %li
+    If you are using a custom implementation of the <code>StateRepository</code> interface, you will have to
+    update your implementation to persist the new <code>FeatureState</code> data structure. Have a look at the
+    other state repositories if you have any problems.
+  %li
+    Please note, that although this release is called 2.0.0.Alpha1, it is considered to be very stable. The main
+    reason for calling it Alpha1 instead of CR1 is, that we are looking for community feedback regarding the new APIs.
+
 %a(name='1.1.0')
 %h2
   Togglz 1.1.0.Final
