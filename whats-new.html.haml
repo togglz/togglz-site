@@ -9,6 +9,34 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.0.0.Beta1')
+%h2
+  Togglz 2.0.0.Beta1
+
+%ul
+  %li
+    The core classes of Togglz don't assume that features are declared using Java enums any more. This allows users
+    to use different approaches to define which features are available. Users could for example use a database to manage 
+    the features and their metadata.
+  %li
+    The new <code>StaticFeatureManagerProvider</code> simplifies the configuration of Togglz in standalone applications. 
+  %li
+    Two new activation strategies have been added to Togglz. The <i>Client IP</i> strategy allows to enable features only
+    for a specific number of client IP addresses. This strategy is useful if features should be active for users
+    accessing a site from a specific location. The <i>Server IP</i> strategy behaves similar. But instead of the client IP, it uses
+    the server's IP address. This strategy can be used for canary testing if you want to activate a feature only
+    on a specific server of you cluster.  
+  %li
+    Typically users configure Togglz by implementing the <code>TogglzConfig</code> interface. As an alternative to this, 
+    you can now implement <code>TogglzBootstrap</code> instead. Doing this allows you to configure more aspects of Togglz as you can
+    directly interact with the <code>FeatureManagerBuilder</code> instead of just configuring some of it's properties.
+  %li
+    The new SPI <code>FeatureManagerListener</code> has been added which allows you to get notified when Togglz starts up
+    and shuts down. This SPI has been added for other Togglz modules but may also be used directly by the user.
+  %li
+    The <code>@WithFeature</code> annotation of the JUnit integration module now allows to activate multiple feature
+    at once and may even be used if you want to explicitly disable certain features in a test.
+
 %a(name='2.0.0.Alpha1')
 %h2
   Togglz 2.0.0.Alpha1
@@ -35,6 +63,19 @@ layout: base
   %li
     Please note, that although this release is called 2.0.0.Alpha1, it is considered to be very stable. The main
     reason for calling it Alpha1 instead of CR1 is, that we are looking for community feedback regarding the new APIs.
+
+%a(name='1.1.1')
+%h2
+  Togglz 1.1.1.Final
+
+%ul
+  %li
+    Fixed issue in FileBasedStateRepository and InMemoryStateRepository which may lead to data corruption 
+    of the repository data in case of conurrent writes (see <a href="https://github.com/togglz/togglz/issues/21">#21</a>). 
+    Special thanks to <a href="https://github.com/jadlr">Jonas Adler</a> for bringing this up.
+  %li
+    Fixed SPI implementation ordering issue for priority of Integer.MIN_VALUE 
+    (see <a href="https://github.com/togglz/togglz/issues/22">#22</a>).
 
 %a(name='1.1.0')
 %h2
