@@ -9,6 +9,33 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.0.0.Beta2')
+%h2
+  Togglz 2.0.0.Beta2
+
+%ul
+  %li
+    The <code>Feature</code> interface doesn't force the user to implement <code>isActive()</code> anymore.
+    <u>Please note that this change requires you to remove the <code>@Override</code> annotation from your implementation of 
+    the method.</u>
+  %li
+    Fixed a bug that caused <code>JDBCStateRepository</code> too work in the wrong database schema 
+    (see <a href="https://github.com/togglz/togglz/issues/38">#38</a>).
+  %li
+    The new Togglz JSP integration module provides a JSP taglib that simplifies checking feature states
+    in JSP pages. Thanks to <a href="https://github.com/maurotalevi">Mauro Talevi</a> for his help on this.
+  %li
+    Added <code>SingleUserProvider</code> to simplify configuration of environments where only one (virtual) user exists.
+  %li
+    Feature definitions can now be configured using property files instead of a Java enum. This can be especially
+    useful in distributed environments where components doesn't share any code. 
+    Thanks to <a href="https://github.com/maurotalevi">Mauro Talevi</a> for implementing this feature.  
+  %li
+    Added new <code>NamedFeature</code> to replace the deprecated <code>UntypedFeature</code>
+  %li
+    The Togglz Admin Console is now distributable and therefore works in clustered environments
+    (see <a href="https://github.com/togglz/togglz/issues/32">#32</a>).
+
 %a(name='2.0.0.Beta1')
 %h2
   Togglz 2.0.0.Beta1
