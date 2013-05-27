@@ -9,6 +9,40 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.0.0.RC1')
+%h2
+  Togglz 2.0.0.RC1
+
+%ul
+  %li
+    Togglz now allows you to manage the lifecycle of the <code>FeatureManager</code> using a supported DI container
+    like CDI or Spring. To do so, make sure your container manages an instance of 
+    <code>FeatureManager</code> (for example by writing a CDI producer method)
+    and then set <code>org.togglz.FEATURE_MANAGER_PROVIDED</code> 
+    in <code>web.xml</code> to <code>true</code> to tell Togglz to skip the automatic bootstrapping process 
+    for a <code>FeatureManager</code> managed by Togglz. 
+  %li
+    Added the factory bean <code>FeatureManagerFactory</code> that simplifies the creation of a 
+    <code>FeatureManager</code> managed by Spring. See the javadocs for
+    <a href="http://localhost:4242/apidocs/2.0.0.RC1/org/togglz/spring/manager/FeatureManagerFactory.html">FeatureManagerFactory</a>
+    for details.
+  %li
+    Added a new extension point that allows users to define custom feature metadata attributes. If you are
+    using Java enums for declaring your features, you can now define your own annotations to specify metadata
+    for your features. Togglz already provides two annotations <code>@Owner</code> and 
+    <code>@InfoLink</code> that your can place on your features. If you want to define your own attribute,
+    just create an annotation and place <code>@FeatureAttribute</code> on it. Have a look the source of
+    <a href="https://github.com/togglz/togglz/blob/master/core/src/main/java/org/togglz/core/annotation/Owner.java">@Owner</a>
+    for an example.
+  %li
+    The <code>EnumBasedFeatureProvider</code> now supports multiple enums. This means that you can now
+    split your feature toggles across multiple Java enums.
+  %li
+    If you are running Togglz in an servlet environment, the <code>TogglzFilter</code> now tries to autodetect whether
+    it should bootstrap a feature manager itself or if you already created one using a supported
+    container like CDI or Spring. This means that you typically don't have to set 
+    <code>FEATURE_MANAGER_PROVIDED</code> manually.
+
 %a(name='2.0.0.Beta2')
 %h2
   Togglz 2.0.0.Beta2
