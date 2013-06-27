@@ -1,5 +1,4 @@
-stableVersion: 1.1.1.Final
-previewVersion: 2.0.0.RC1
+stableVersion: 2.0.0.RC1
 developmentVersion: 2.0.0-SNAPSHOT
 jdkJavadocsBase: http://docs.oracle.com/javase/7/docs/api
 profiles:
