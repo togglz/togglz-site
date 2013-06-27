@@ -39,7 +39,7 @@ layout: base
 
 %p
   If you deploy your application to a Servlet 3.0 container, you won't have to do any further configuration.
-  In case your container doesn't support Servlet 3.0, you have to manually register the required Filter. Please 
+  In case your container doesn't support Servlet 3.0, you have to manually register the required filter. Please 
   refer to <a href="/documentation/installation.html">Installation</a> for details.
 
 %h2
@@ -78,7 +78,7 @@ layout: base
         }
     
         public StateRepository getStateRepository() {
-            return new FileBasedStateRepository(new File("/somewhere/features.properties"));
+            return new FileBasedStateRepository(new File("/tmp/features.properties"));
         }
     
         public UserProvider getUserProvider() {
