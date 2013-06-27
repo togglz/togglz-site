@@ -61,20 +61,17 @@ layout: base
     %tr
       %td.left feature
       %td
-        A feature represents a single characteristic that you can enable or disable. Features in Togglz are represented by a
-        Java enum with one value for each feature.
+        A feature represents a single characteristic that you can enable or disable. Features in Togglz are typically 
+        represented by a Java enum with one value for each feature.
     %tr
       %td.left enabled / disabled
       %td
-        An feature is either enabled or disabled disabled for the entire application. But the fact that a feature is enabled 
-        doesn't automatically mean that all users are able to use it because the user list can be used to restrict for whom 
-        it is available. Disabled feature instead are definitively disabled for all the users.
+        An feature is either enabled or disabled for the entire application. 
     %tr
       %td.left active / inactive
       %td
-        Whether a feature is active or not depends on the currently acting user. This is because features can be enabled only
-        for a specific list of users. For them the feature will be active while it is inactive for all others.  
-
+        Active feature are visible and usable by the users, inactive features are hidden and therefore 
+        not usable.
 %p
   Features are simply declared using a standard Java enum type. Annotations can be used to enrich the feature 
   with additional metadata.
@@ -114,20 +111,26 @@ layout: base
   The feature state
 
 %p
-  A feature in Togglz has two properties:
+  The state of a feature in Togglz consists of the following properties:
   
 %ul
   %li
     This <b>enabled</b> flag specifies whether a feature is currently turned on (enabled) or off (disabled).
   %li
-    The optional <b>user list</b> can be used to limit a feature to a predefined list of users if it is enabled.
+    An optional <b>activation strategy</b> allows you to specify in which situations an enabled feature 
+    is active. You can for example restrict a feature to a certain list of users or to a 
+    specific time frame.
+  %li
+    An optional list of <b>strategy parameters</b> are used to configure the activation strategy.
 
-The values of these to properties can be used to determine whether a feature is active for a user or not.
+%p
+  The values of these properties can be used to determine whether a feature is active or not:
 
 %ul
   %li
-    A feature is <b>active</b> if it is enabled and the user list of the feature is either empty or the currently acting user is included
-    in the user list.
+    A feature is <b>active</b> if it is enabled and there is either no activation strategy 
+    or the strategy evaluates to true.
   %li
-    A feature is <b>inactive</b> if it is either disabled or it is enabled but the user is not listed in the user list of the feature. 
+    A feature is <b>inactive</b> if it is either disabled or there is a strategy defined which
+    evaluates to false.
     

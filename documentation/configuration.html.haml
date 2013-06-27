@@ -56,13 +56,17 @@ layout: base
     <code>@EnabledByDefault</code>: Typically a feature will be disabled per default if no other feature state has been persisted before. If you annotate a feature with this annotation, the feature will be enabled instead.  
 
 %p
-  Besides the feature declaration a feature enum typically also declares a single public method called <code>isActive()</code>. This allows to check whether a feature is active or not simply by calling this method on the enum. You should typically add this method as it is to your feature enum without any modification. 
+  Besides the feature declaration a feature enum typically also declares a single public method called 
+  <code>isActive()</code>. This allows to check whether a feature is active or not simply by calling this 
+  method on the enum. You should typically add this method exactly as shown here to your feature enum. 
 
 %h2
   Implementing TogglzConfig
 
 %p
-  The next step is to configure the FeatureManager which is the central Togglz component that manages the state of your features. To do so, you have to create a class implementing the <code>TogglzConfig</code>.
+  The next step is to configure the <code>FeatureManager</code> which is the central Togglz component 
+  that manages the state of your features. To do so, you have to create a class implementing 
+  the <code>TogglzConfig</code>.
 
 %p
   The following example shows a typical FeatureManager configuration:
@@ -76,7 +80,7 @@ layout: base
         }
     
         public StateRepository getStateRepository() {
-            return new FileBasedStateRepository(new File("/somewhere/features.properties"));
+            return new FileBasedStateRepository(new File("/tmp/features.properties"));
         }
     
         public UserProvider getUserProvider() {
@@ -86,32 +90,40 @@ layout: base
     }
 
 %p  
-  Implementing the <code>TogglzConfig</code> interface requires you to implement three methods. The following sections will describe each of the methods in detail.
+  Implementing the <code>TogglzConfig</code> interface requires you to implement three methods. 
+  The following sections will describe each of the methods in detail.
 
 %h3
   getFeatureClass() 
 
 %p
-  This method is the easiest to implement. It is used to tell Togglz about the feature enum class you want to use. You simply return the Class object of your feature enum here.
+  This method is the easiest to implement. It is used to tell Togglz about the feature enum class 
+  you want to use. You simply return the Class object of your feature enum here.
 
 %h3
   getStateRepository()
 
 %p
-  This method allows you to select the feature state repository you would like to use. The feature state repository is responsible to persist the current state of your features. It knows which features are enabled/disabled and knows about the optional user list that can be attached to a feature.
+  This method allows you to select the feature state repository you would like to use. The feature 
+  state repository is responsible to persist the current state of your features. It knows which features 
+  are enabled/disabled, the activation strategies selected for them and their parameters. 
 
 %p
   Togglz ships with a number of default implementations. Please refer to 
   <a href="/documentation/repositories.html">Feature State Repositories</a> for details.
 
 %p
-  The example shows how to configure a feature state repository that reads the current feature state from an external file.
+  The example shows how to configure a feature state repository that reads the current feature state 
+  from an external file.
 
 %h3
   getUserProvider()
 
 %p
-  This method returns an implementation of the <code>UserProvider</code> interface which is responsible to tell the FeatureManager who is the *current user*. Knowing about the current user is essential for Togglz because it is possible to enable features only for specific users.
+  This method returns an implementation of the <code>UserProvider</code> interface which is responsible 
+  to tell the FeatureManager who is the current user. Knowing about the current user is essential 
+  for Togglz to implement access control for the admin console and for the activation strategy that
+  allows to enable features only for specific users.  
 
 %p
   This example uses the <code>ServletUserProvider</code> as the feature user provider. This implementation uses the <code>HttpServletRequest.getUserPrincipal()</code> to obtain the current user. Other strategies for user authorization will be described in a later chapter.

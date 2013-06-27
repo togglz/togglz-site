@@ -6,7 +6,7 @@ layout: base
   Usage
 
 %p
-  If you followed the preceding chapters, you are now ready to actually use Togglz:
+  If you followed the preceding chapters, you are now ready to actually use Togglz.
 
 %h2
   Java Code
@@ -67,9 +67,9 @@ layout: base
 
 %pre(class="prettyprint lang-xml")
   :escaped
-    <bean id="optimizedService" class="com.example.myapp.services.HighPerformanceService" />
+    <bean id="optimizedService" class="com.example.services.HighPerformanceService" />
   
-    <bean id="oldService" class="com.example.myapp.services.DefaultService" />
+    <bean id="oldService" class="com.example.services.DefaultService" />
   
     <bean id="someService" class="org.togglz.spring.proxy.FeatureProxyFactoryBean">
       <property name="feature" value="HOT_NEW_FEATURE" />
