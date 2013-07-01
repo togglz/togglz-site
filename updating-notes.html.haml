@@ -1,0 +1,177 @@
+---
+layout: base
+---
+
+%h1
+  Updating Notes
+
+%p
+  This page contains some notes on updating Togglz to newer versions. Although
+  we aim to keep backwards compatibility with older version, in 
+  some cases it may be necessary to take care of something when updating. 
+  So please have a look at the sections on this page before updating.
+
+%h2
+  Updating to Togglz 2.0.0 from 1.1.x 
+
+%p
+  This section described the process of migrating applications that are using
+  Togglz 1.1.x to the new Togglz major version 2.0.0.
+
+%h3
+  New feature state data structure
+
+%p
+  Togglz 2.0.0 uses a revised data structure for the feature state. In Togglz 1.1.x
+  the feature state contained a list of user names that could be used to restrict a 
+  feature to a certain subset of all users. 
+  But feedback from the community showed that there is a demand for more complex
+  strategies for activating features than just the user names. Therefore the data
+  structure has been refactored. Instead of a simple user list, the feature state 
+  now allows to select an <i>activation strategy</i> and an arbitrary list of 
+  custom parameters for that strategy.
+
+%p
+  As the feature state is persisted and restored by the state repositories, this 
+  change affects all repository implementations that Togglz provides and also all
+  custom implementations users have created.
+
+%p
+  The following sections will describe the changes to the standard state repositories.
+  
+%p
+  Please note that all repositories automatically migrate the persisted feature
+  state to the new format. However, you should double check your application
+  after the update to make sure that everything worked as expected.
+
+%h4
+  FileBasedStateRepository
+
+%p
+  The implementation of <code>FileBasedStateRepository</code> has been updated
+  to support the new feature state data structure. Feature state persisted with
+  Togglz 1.1.x represents it like this:  
+
+%pre(class="prettyprint")
+  :escaped
+    FEATURE_ONE = true
+    FEATURE_ONE.users = chkal, john
+
+%p
+  The repository will still understand this format. But after updating a
+  feature state, the new format will be used:
+
+%pre(class="prettyprint")
+  :escaped
+    FEATURE_TWO = true
+    FEATURE_TWO.strategy = username
+    FEATURE_TWO.param.users = chkal, john  
+
+%p
+  As the migration is handled automatically, you typically don't have
+  to manually perform any steps for updating to Togglz 2.0.0. However you should
+  backup your properties file before doing the update, because after the format has
+  been migrated, Togglz 1.1.x won't be able to read the file any more. So keeping
+  a backup is a good idea so you can go back to Togglz 1.1.x in case of problems.
+
+%h4
+  JDBCStateRepository
+
+%p
+  The JDBC-based state repository has been updated to use a new table structure
+  for storing the feature state. In Togglz 1.1.x the feature state was persisted
+  like this: 
+  
+%table(class="table table-striped table-bordered")
+  %tr
+    %th FEATURE_NAME
+    %th FEATURE_ENABLED
+    %th FEATURE_USERS
+  %tr
+    %td SOME_FEATURE
+    %td 1
+    %td chkal, john
+
+%p
+  In Togglz 2.0.0 the table structure has been adapted to support activation
+  strategies. The new structure looks like this:
+
+%table(class="table table-striped table-bordered")
+  %tr
+    %th FEATURE_NAME
+    %th FEATURE_ENABLED
+    %th STRATEGY_ID
+    %th STRATEGY_PARAMS
+  %tr
+    %td SOME_FEATURE
+    %td 1
+    %td username
+    %td chkal, john
+
+%p
+  The repository will automatically check the table format during startup. If the
+  old table format is detected, it will be automatically migrated to the new format.
+  The table migration has been tested with various databases. However, you should
+  do a backup of the table before updating to Togglz 2.0.0, because earlier
+  versions of Togglz won't be able to read the new table structure any more. 
+
+%h4
+  Custom repositories
+
+%p
+  If you have implemented a custom state repository for your application, you will
+  also have to update the implementation. Have a look at the existing repositories
+  to get an idea of how this can be done. 
+  
+%h3
+  Feature enum's isActive() method
+
+%p
+  Feature enums typically implement a method called <code>isActive()</code>. In 
+  Togglz 1.1.x this method was enforced by the <code>Feature</code> interface.
+  With Togglz 2.0.0 this method was removed from the interface. Therefore if you
+  placed a <code>@Overrides</code> annotation on the method, you will have
+  to remove this to satisfy the compiler.
+
+%h3
+  Deprecated UntypedFeature
+
+%p
+  The class <code>UntypedFeature</code> has been deprecated. If you used this class
+  before, it is recommended to migrate your code to use <code>NamedFeature</code>
+  instead.
+  
+%h3
+  Deprecated org.togglz.LOCAL_FEATURE_MANAGER
+
+%p
+  Togglz 1.1.x allowed to disable the bootstrapping of a local feature manager
+  by setting the servlet context parameter 
+  <code>org.togglz.LOCAL_FEATURE_MANAGER</code> to <code>false</code>. This
+  parameter has been deprecated in Togglz 2.0.0. Although this parameter
+  will still work for some time, you are encouraged to use
+  <code>org.togglz.FEATURE_MANAGER_PROVIDED</code> instead.
+%p
+  If you have this entry in your <code>web.xml</code>:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <context-param>
+      <param-name>org.togglz.LOCAL_FEATURE_MANAGER</param-name>
+      <param-value>false</param-value>
+    </context-param>
+
+%p
+  You should change this to:
+  
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <context-param>
+      <param-name>org.togglz.FEATURE_MANAGER_PROVIDED</param-name>
+      <param-value>true</param-value>
+    </context-param>
+
+%p
+  Please note the inverted logic. To disable the bootstrapping, you had to set
+  the old parameter to <code>false</code>. To get the same effect, you will have
+  to set the new parameter to <code>true</code>. 
