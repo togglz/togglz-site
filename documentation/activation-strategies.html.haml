@@ -43,14 +43,44 @@ layout: base
   Username
 
 %p
-  TODO
+  Enabling features for specific users was already supported in very early versions of Togglz, 
+  even before the activation strategy concept was introduced in Togglz 2.0.0.
+
+%p
+  If you select this strategy for a feature, you can specify an comma-separated list of 
+  users for which the feature should be active. Togglz will use the <code>UserProvider</code> 
+  you configured for the FeatureManager to determine the current user and compare it to
+  that list.
+
+%p
+  Please note that Togglz will take case into account when comparing the usernames. So the
+  users <code>admin</code> and <code>Admin</code> are NOT the same.
+
+%p
+  This strategy is very useful if you want to allow a specific list of users to test a certain
+  feature in production.
+
 
 %a(name='gradual-rollout')
 %h2
   Gradual rollout
 
 %p
-  TODO
+  The gradual rollout strategy allows you to activate a feature to a certain percentage of
+  users. This allows you to test a feature with a very small number of users and increase the
+  number over time until the feature is active for everyone.
+
+%p
+  If you select this strategy, you will be asked to enter a percentage value. If you for example 
+  enter <code>25</code>, Togglz will activate the feature for every forth user.
+
+%p
+  The users are selected by calculating a hash value from the username which is then normalized
+  to a value between 0 and 100. The feature will be active for a user if the hash value is smaller or
+  equal to the percentage you configured. This algorithm will ensure that the feature will be
+  active for a user even after you increased the percentage. Have a look at the
+  <a href="https://github.com/togglz/togglz/blob/master/core/src/main/java/org/togglz/core/activation/GradualActivationStrategy.java">source code</a>
+  of the strategy for more details.
 
 %a(name='release-date')
 %h2
