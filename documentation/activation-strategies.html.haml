@@ -87,29 +87,82 @@ layout: base
   Release date
 
 %p
-  TODO
+  The release date strategy can be used to automatically activate a feature at a certain
+  point in time. If you select this strategy, you have to enter a date and an optional
+  time for the feature to get active. If you omit the time, the feature will be activated
+  at midnight. The date must be specified in the format <code>2012-12-31</code> and the
+  time in the format <code>14:15:00</code>
 
 %a(name='client-ip')
 %h2
   Client IP
 
 %p
-  TODO
+  The client IP strategy allows you to restrict a feature to clients connecting from a specific 
+  IP address. The strategy uses <code>HttpServletRequest.getRemoteAddr()</code> to obtain the IP
+  address of the client. The strategy is therefore restricted to web applications running in a 
+  Servlet environment.
+
+%p
+  Please note that the strategy requires you to enter a full IP address. Specifying subnets is
+  currently not supported (patches are welcome). But you can enter multiple IP addresses 
+  separated by comma.
 
 %a(name='server-ip')
 %h2
   Server IP
 
 %p
-  TODO
+  The Server IP strategy is similar to the Client IP strategy. The only difference is that
+  not the client IP but the server IP address is used. This strategy is very useful
+  for canary testing where you activate a feature only on a subset of your cluster nodes
+  to test for things like performance issues.
+
+%p
+  The strategy uses <a href="http://docs.oracle.com/javase/7/docs/api/java/net/NetworkInterface.html#getNetworkInterfaces()">NetworkInterface.getNetworkInterfaces()</a>
+  to obtain the IP addresses of the server. All IP addresses returned by this method are compared 
+  against the IP addresses configured for the strategy. The feature will be active if there is at 
+  least one match. 
 
 %a(name='script-engine')
 %h2
   Script Engine
 
 %p
-  TODO
+  The ScriptEngine strategy is the most flexible activation strategy. It allows you to use a 
+  JSR223 scripting language to implement the test that decides whether the feature is active or not.
+  You can use any language supported by the 
+  <a href="http://docs.oracle.com/javase/7/docs/api/javax/script/ScriptEngine.html">ScriptEngine</a> 
+  of your JVM. The Oracle JVM ships with an <code>ECMAScript</code> engine that allows you
+  to write JavaScript for your check out of the box.
 
+%p
+  The activation strategy has two parameters. The first one is used to specify the language to use for the
+  script (for example <code>ECMAScript</code>). The second parameters is the script itself. The script must
+  evaluate to a boolean result. The script context is populated with a few variables that may
+  be useful for you: 
+
+%ul
+  %li
+    <code>user</code>: The <code>FeatureUser</code> representing the current user.
+  %li
+    <code>date</code>: The current time as a <code>java.util.Date</code>
+
+%p
+  This example shows a script written in JavaScript that enables the feature
+  for a user named <code>john</code> on Sundays. 
+
+%ul
+  %li
+    <strong>Language:</strong><br/><code>ECMAScript</code>
+  %li
+    <strong>Script:</strong><br/><code>user.name == 'john' && date.day == 0</code>
+
+%p
+  Please double check your script before using it for a feature. If the script evaluation
+  fails due to some error, the feature will be inactive.
+  
+  
 %a(name='custom')
 %h2
   Custom Strategies
