@@ -168,5 +168,119 @@ layout: base
   Custom Strategies
 
 %p
-  TODO
+  The great thing about activation strategies is that it is very easy to add your
+  own strategies. Togglz offers an extension point that allows you to implement a new
+  strategy with only a single class.
 
+%p
+  All activation strategies have to implement the interface
+  <a href="http://www.togglz.org/apidocs/#{site.stableVersion}/org/togglz/core/spi/ActivationStrategy.html">ActivationStrategy</a>.
+  Togglz looks up the implementations using the standard Java
+  <a href="http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
+  mechanism. 
+
+%p
+  To register an custom activation strategy implementation, you have to create a file called
+  <code>META-INF/services/org.togglz.core.spi.ActivationStrategy</code> on your classpath 
+  and add single line containing the fully-qualified class name of your implementation class.
+
+%p
+  The <code>ActivationStrategy</code> interface defines the following methods:
+
+%h3
+  getId()
+
+%p
+  This method has to return a unique id for the strategy. This id is used to identify the strategy
+  when the feature state is persisted by a <code>StateRepository</code>.
+
+%h3
+  getName()
+
+%p
+  This method returns the human readable name of the activation strategy. This name will for example be
+  displayed in the Togglz Admin Console.
+
+%h3
+  getParameters()
+
+%p
+  The <code>getParameters()</code> method can be used by the activation strategy to tell Togglz about
+  the strategy parameters it supports. The method returns an array of
+  <a href="http://www.togglz.org/apidocs/#{site.stableVersion}/org/togglz/core/activation/Parameter.html">Parameter</a>
+  instances. Each element in this array represents a specification for a single parameter.
+
+%p
+  The simplest way to create <code>Parameter</code> instances is to use 
+  <a href="http://www.togglz.org/apidocs/#{site.stableVersion}/org/togglz/core/activation/ParameterBuilder.html">ParameterBuilder</a>.
+  The builder offers a fluent API for defining a parameter. However you can also create your own
+  <code>Parameter</code> implementation. This can be useful especially if you need to implement custom
+  validation for a parameter.
+
+%h3
+  isActive()
+
+%p
+  This method is responsible for the evaluation of the strategy. It is called every time a feature
+  state is checked for a feature which uses the strategy. The method has two arguments, the 
+  current user as a <code>FeatureUser</code> and the <code>FeatureState</code> representing
+  the configuration of the feature. The implementation of the method can obtain the values of the
+  strategy parameters by calling <code>FeatureState.getParameter()</code>.
+
+%h3
+  Example
+
+%p
+  Enough theory for now. The easiest way to understand how to build a custom strategy is to see
+  an example.
+
+%p
+  The following strategy allows you to activate a feature only for specific days of the week. 
+  So it can for example be configured so that the feature is only active on Mondays.
+  The strategy defines a single parameter identified by the id <code>day</code>. This value of
+  this parameter is then compared against the current weekday. 
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public class WeekdayActivationStrategy implements ActivationStrategy {
+    
+        private static final String[] SHORT_WEEKDAYS = 
+            DateFormatSymbols.getInstance().getShortWeekdays();
+    
+        @Override
+        public String getId() {
+            return "weekday";
+        }
+    
+        @Override
+        public String getName() {
+            return "Weekday strategy";
+        }
+    
+        @Override
+        public Parameter[] getParameters() {
+            return new Parameter[] {
+                    ParameterBuilder.create("day").label("Day of week")
+            };
+        }
+    
+        @Override
+        public boolean isActive(FeatureState featureState, FeatureUser user) {
+    
+            // the weekday name configured for the strategy
+            String selectedWeekday = featureState.getParameter("day");
+    
+            // get the weekday name for today
+            Calendar now = GregorianCalendar.getInstance();
+            int currentWeekday = now.get(Calendar.DAY_OF_WEEK);
+            String currentWeekdayName = SHORT_WEEKDAYS[currentWeekday];
+    
+            // the feature is active if the weekday matches
+            return selectedWeekday.equals(currentWeekdayName);
+    
+        }
+    
+    }
+
+%p
+  Easy, isn't it? :)
