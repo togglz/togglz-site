@@ -9,6 +9,37 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.0.1.Final')
+%h2
+  Togglz 2.0.1.Final
+
+%ul
+  %li
+    Avoid NPE when <code>FeatureManagerFactoryBean.getObjectType()</code> is called before initialization
+    (see <a href="https://github.com/togglz/togglz/issues/47">#47</a>)
+  %li
+    Fixed <code>CachingStateRepository</code> to work correctly with <code>NamedFeature</code>
+    (see <a href="https://github.com/togglz/togglz/issues/56">#56</a>)
+  %li
+    Allow to specify cache TTL in other time units than millisecond
+    (see <a href="https://github.com/togglz/togglz/issues/48">#48</a>)
+  %li
+    Added system property <code>org.togglz.DISABLE_JNDI_LOOKUPS</code> to work around issue when
+    running on GAE
+  %li
+    Fixed NPE in <code>ServerIpActivationStrategy</code> that occurred if running on GAE 
+  %li
+    Allow users to configure the <code>minCheckInterval</code> of <code>FileBasedStateRepository</code>
+    (see <a href="https://github.com/togglz/togglz/issues/64">#64</a>)
+  %li
+    <code>StaticFeatureManagerProvider</code> should use a volatile field to store the <code>FeatureManager</code>
+    (see <a href="https://github.com/togglz/togglz/issues/59">#59</a>)
+  %li
+    Make sure <code>FeatureProxyFactoryBean.getObject()</code> isn't called before initialization
+    (see <a href="https://github.com/togglz/togglz/issues/76">#76</a>)
+  %li
+    And some more minor fixes...
+
 %a(name='2.0.0.Final')
 %h2
   Togglz 2.0.0.Final
