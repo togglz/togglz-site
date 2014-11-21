@@ -31,6 +31,11 @@ layout: base
 
 %pre(class="prettyprint lang-java")
   :escaped
+    import org.togglz.core.Feature;
+    import org.togglz.core.annotation.EnabledByDefault;
+    import org.togglz.core.annotation.Label;
+    import org.togglz.core.context.FeatureContext;
+ 
     public enum MyFeatures implements Feature {
     
         @EnabledByDefault
@@ -73,6 +78,17 @@ layout: base
 
 %pre(class="prettyprint lang-java")
   :escaped
+    import java.io.File;
+    
+    import org.togglz.core.Feature;
+    import org.togglz.core.manager.TogglzConfig;
+    import org.togglz.core.repository.StateRepository;
+    import org.togglz.core.repository.file.FileBasedStateRepository;
+    import org.togglz.core.user.FeatureUser;
+    import org.togglz.core.user.UserProvider;
+    import org.togglz.servlet.user.ServletUserProvider
+
+    
     public class MyTogglzConfiguration implements TogglzConfig {
     
         public Class<? extends Feature> getFeatureClass() {
@@ -140,7 +156,7 @@ layout: base
   CDI
 
 %p
-  If your are using CDI and included the Togglz CDI integration module in your application, you won't have to do anything. Togglz will automatically search for implementations of <code>TogglzConfig</code> managed by the CDI container. As your implementation will typically have an empty default constructor, CDI will pick it up as a managed bean and Togglz will find it automatically. 
+  If you are using CDI and included the Togglz CDI integration module in your application, you won't have to do anything. Togglz will automatically search for implementations of <code>TogglzConfig</code> managed by the CDI container. As your implementation will typically have an empty default constructor, CDI will pick it up as a managed bean and Togglz will find it automatically. 
 
 %h3
   Spring
