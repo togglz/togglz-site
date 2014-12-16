@@ -12,6 +12,25 @@ layout: base
   So please have a look at the sections on this page before updating.
 
 %h2
+  Updating to Togglz 2.1.0 from 2.0.0 
+
+%h3
+  Hash calculation for gradual rollout strategy
+
+%p
+  The <i>Gradual Rollout</i> activation strategy in Togglz 2.0.0 used a simple
+  hash value of the user's name to determine if a feature should be active or not.
+  This has changed in 2.1.0. Since this version the default hash value
+  will be created from the username AND the feature name to provide a better
+  distribution of hash values.
+
+%p
+  What does this mean for you? This means that if you are currently using the gradual
+  rollout strategy and are updating to 2.1.0 or newer, the users for which the
+  features are active will be different after the update. So please plan your update
+  accordently.
+
+%h2
   Updating to Togglz 2.0.0 from 1.1.x 
 
 %p

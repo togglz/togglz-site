@@ -9,6 +9,52 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.1.0.Final')
+%h2
+  Togglz 2.1.0.Final
+
+%ul
+  %li
+    New Google AppEngine module. Many thanks to 
+    <a href="https://github.com/fabito">Fábio Franco Uechi</a> for his work on this.
+  %li
+    New MongoDB module providing a MongoDB state repository.
+  %li
+    Added OSGi manifests to all Togglz modules 
+    (see <a href="https://github.com/togglz/togglz/issues/93">#93</a>)
+  %li
+    New activation strategy based on SpringSecurity user authorities.
+    (see <a href="https://github.com/togglz/togglz/issues/67">#67</a>)
+  %li
+    New <code>ServerNameActivationStrategy</code> 
+    (see <a href="https://github.com/togglz/togglz/issues/88">#88</a>)
+  %li
+    Fixed issue in FeatureProxyFactoryBean that caused errors if proxy was created too early
+    (see <a href="https://github.com/togglz/togglz/issues/76">#76</a>)
+  %li
+    Various improvements and bugfixes for <code>CachingStateRepository</code>
+  %li
+    Performance improvements in <code>FileBasedStateRepository</code>
+    (see <a href="https://github.com/togglz/togglz/issues/64">#64</a>)
+  %li
+    Various improvements for the JSP taglib
+    (see <a href="https://github.com/togglz/togglz/issues/68">#68</a>,
+    <a href="https://github.com/togglz/togglz/issues/94">#94</a> and
+    <a href="https://github.com/togglz/togglz/issues/96">#96</a>)
+  %li
+    <code>JDBCStateRepository</code> now supports container managed transactions.
+    (see <a href="https://github.com/togglz/togglz/issues/77">#77</a>)
+  %li
+    Added a builder to simplify the creation and configuration of 
+    <code>JDBCStateRepository</code> 
+  %li
+    Fixed Togglz Admin Console to work correctly with JSESSIONID in URL
+    (see <a href="https://github.com/togglz/togglz/issues/83">#83</a>)
+  %li
+    Various improvements in the test support modules
+  %li
+    And much much more...
+
 %a(name='2.0.1.Final')
 %h2
   Togglz 2.0.1.Final
