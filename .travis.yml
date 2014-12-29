@@ -1,0 +1,18 @@
+language: ruby
+install:
+  - gem install awestruct
+script:
+  - awestruct -P production
+deploy:
+  provider: s3
+  access_key_id: AKIAIJZYS46EAIHRXXLQ
+  secret_access_key:
+    secure: R2YH2Ct4lzE+j+EJCtB9EqOLFO506Rez75JYQrOR8SexvY7jbhn+E/vgbMGcccE1BxnHLUBnDcNgtixWOv2u3fWmgFHf2cy2Cp9tyjvLW40LwtInIRBqpRhwXlunuhlxRrNB48hDC2Y6gQzI1fcVwgzZoCxU3f05Sj7I5sFFzh0=
+  bucket: www.togglz.org
+  skip_cleanup: true
+  endpoint: www.togglz.org.s3-website-eu-west-1.amazonaws.com
+  region: eu-west-1
+  local-dir: _site
+  acl: public_read
+  on:
+    repo: togglz/togglz-site
