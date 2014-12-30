@@ -29,10 +29,10 @@ layout: base
     New activation strategy based on SpringSecurity user authorities.
     (see <a href="https://github.com/togglz/togglz/issues/67">#67</a>)
   %li
-    New <code>ServerNameActivationStrategy</code> 
-    (see <a href="https://github.com/togglz/togglz/issues/88">#88</a>)
+    New <code>ServerNameActivationStrategy</code> for activating features only on certain
+    cluster nodes (see <a href="https://github.com/togglz/togglz/issues/88">#88</a>)
   %li
-    Fixed issue in FeatureProxyFactoryBean that caused errors if proxy was created too early
+    Fixed bug in <code>FeatureProxyFactoryBean</code> that caused issues if proxy was created too early
     (see <a href="https://github.com/togglz/togglz/issues/76">#76</a>)
   %li
     Various improvements and bugfixes for <code>CachingStateRepository</code>
@@ -45,7 +45,7 @@ layout: base
     <a href="https://github.com/togglz/togglz/issues/94">#94</a> and
     <a href="https://github.com/togglz/togglz/issues/96">#96</a>)
   %li
-    <code>JDBCStateRepository</code> now supports container managed transactions.
+    <code>JDBCStateRepository</code> now supports container managed transactions
     (see <a href="https://github.com/togglz/togglz/issues/77">#77</a>)
   %li
     Added a builder to simplify the creation and configuration of 
