@@ -3,7 +3,7 @@ rvm: 2.1.5
 install:
   - gem install awestruct
 script:
-  - awestruct -P production
+  - awestruct -P production --verbose
 deploy:
   provider: s3
   access_key_id: AKIAIJZYS46EAIHRXXLQ
