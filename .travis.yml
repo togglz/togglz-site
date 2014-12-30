@@ -1,7 +1,7 @@
 language: ruby
 rvm: 2.1.5
 install:
-  - gem install awestruct haml-contrib
+  - gem install awestruct haml-contrib maruku
 script:
   - awestruct -P production
 deploy:
