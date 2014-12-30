@@ -1,9 +1,9 @@
 language: ruby
 rvm: 2.1.5
 install:
-  - gem install awestruct
+  - gem install awestruct haml-contrib
 script:
-  - awestruct -P production --verbose
+  - awestruct -P production
 deploy:
   provider: s3
   access_key_id: AKIAIJZYS46EAIHRXXLQ
