@@ -17,7 +17,11 @@ layout: base
     togglz-#{site.stableVersion}.zip
 
 %p
-  If you are using Apache Maven for your project, have a look at the following chapter.
+  If you want to give the latest snapshots a try, grab it here:
+
+%p.calign
+  %a(href='https://oss.sonatype.org/content/repositories/snapshots/org/togglz/togglz-distribution/#{site.developmentVersion}/' class='biglink')
+    togglz-#{site.developmentVersion}.zip
 
 %h2
   Apache Maven
@@ -28,7 +32,7 @@ layout: base
   
 %p
   Togglz has been developed in a very modular manner. This allows you to select exactly the components of the 
-  framework that you want to use. The Togglz Servlet module is the only module that is mandatory:
+  framework that you want to use. The Togglz Servlet module is the only required one:
 
 %pre(class="prettyprint lang-xml")
   :escaped
@@ -39,110 +43,51 @@ layout: base
       <version>#{site.stableVersion}</version>
     </dependency>
 
+    <!-- Additional modules (optional) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-{some-module}</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+
 %p
-  Beside this there are a number of optional artifacts that provide additional functionality or integration 
-  with third party frameworks:
-  
+  Which of the optional modules to add depends on your specific environment. You can find the full list
+  of modules available in Maven central here:
+
+%p.calign
+  %a(href='http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.togglz%22')
+    Togglz modules on Maven Central
+
+%p
+  If you want to give the latest snapshots a try, you will have to add the Sonatype OSS snapshot 
+  repository to your <code>pom.xml</code> and set the Togglz version to <code>#{site.developmentVersion}</code>:
+
 %pre(class="prettyprint lang-xml")
   :escaped
-    <!-- The web-based admin console -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-console</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>   
+    <dependencies>
+      
+      <dependency>
+        <groupId>org.togglz</groupId>
+        <artifactId>togglz-servlet</artifactId>
+        <version>#{site.developmentVersion}</version>
+      </dependency>
 
-    <!-- CDI integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-cdi</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>
-    
-    <!-- Spring integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-spring</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>
-    
-    <!-- JSF integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-jsf</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency> 
+      <!-- more dependencies -->      
+      
+    </dependencies>
 
-    <!-- JSP integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-jsp</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency> 
+    <repositories>
+      <repository>
+        <id>sonatype-oss-snapshots</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases>
+          <enabled>false</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </repository>
+    </repositories>
+    
 
-    <!-- SLF4J logging bridge -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-slf4j</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>
-    
-    <!-- Seam Security integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-seam-security</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>
-    
-    <!-- Spring Security integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-spring-security</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>    
-    
-    <!-- Apache Shiro integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-shiro</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>    
-    
-    <!-- Apache DeltaSpike integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-deltaspike</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>    
-    
-    <!-- Google App Engine integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-appengine</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>    
 
-    <!-- MongoDB integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-mongodb</artifactId>
-      <version>#{site.stableVersion}</version>
-    </dependency>    
-
-    <!-- Testing support -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-testing</artifactId>
-      <version>#{site.stableVersion}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- JUnit integration -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-junit</artifactId>
-      <version>#{site.stableVersion}</version>
-      <scope>test</scope>
-    </dependency>
-
-    
