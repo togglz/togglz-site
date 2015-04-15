@@ -12,6 +12,34 @@ layout: base
   So please have a look at the sections on this page before updating.
 
 %h2
+  Updating to Togglz 2.2.0 from 2.1.0
+
+%p
+  Please not that Togglz 2.2.0 hasn't been released yet.
+
+%h3
+  Split of Spring module
+
+%p
+  In previous Togglz versions the Spring module had a dependency on <code>spring-web</code>.
+  This caused problems for people wanting to use Togglz in Spring projects which aren't
+  web applications.
+
+%p
+  Therefore the <code>togglz-spring</code> module has been split into <code>togglz-spring-core</code>
+  and <code>togglz-spring-web</code>. What does this mean for you? If you are updating from a
+  previous version of Togglz, you will have to use this Maven dependency for the Spring module
+  after updating the version:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring-web</artifactId> <!-- was 'togglz-spring' before -->
+      <version>${togglz.version}</version>
+    </dependency>
+
+%h2
   Updating to Togglz 2.1.0 from 2.0.0 
 
 %h3
