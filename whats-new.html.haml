@@ -9,9 +9,9 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
-%a(name='2.2.0-SNAPSHOT')
+%a(name='2.2.0.Final')
 %h2
-  Togglz 2.2.0-SNAPSHOT
+  Togglz 2.2.0.Final
 
 %ul
   %li
@@ -24,7 +24,12 @@ layout: base
     (see <a href="https://github.com/togglz/togglz/pull/128">#128</a>)
   %li
     Spring module has been splitted into <code>spring-core</code> and <code>spring-web</code> modules
-    (see <a href="https://github.com/togglz/togglz/issue/55">#55</a>)
+    (see <a href="https://github.com/togglz/togglz/issue/55">#55</a>). Please refer to the
+    <a href="/updating-notes.html">updating notes</a> if you are updaing from an earlier version
+    of Togglz.
+  %li
+    The JUnit <code>TogglzRule</code> now supports feature variations.
+    (see <a href="https://github.com/togglz/togglz/issue/131">#131</a>)
   %li
     The Togglz Console now supports CSRF tokens created by Spring Security
     (see <a href="https://github.com/togglz/togglz/issue/115">#115</a>)
@@ -41,15 +46,15 @@ layout: base
 
 %ul
   %li
-    New Google AppEngine module. Many thanks to 
+    New Google AppEngine module. Many thanks to
     <a href="https://github.com/fabito">Fábio Franco Uechi</a> for his work on this.
   %li
-    New Guice module. Thanks to 
+    New Guice module. Thanks to
     <a href="https://github.com/fabito">Fábio Franco Uechi</a> for this contribution.
   %li
     New MongoDB module providing a MongoDB state repository.
   %li
-    Added OSGi manifests to all Togglz modules 
+    Added OSGi manifests to all Togglz modules
     (see <a href="https://github.com/togglz/togglz/issues/93">#93</a>)
   %li
     New activation strategy based on SpringSecurity user authorities.
@@ -74,8 +79,8 @@ layout: base
     <code>JDBCStateRepository</code> now supports container managed transactions
     (see <a href="https://github.com/togglz/togglz/issues/77">#77</a>)
   %li
-    Added a builder to simplify the creation and configuration of 
-    <code>JDBCStateRepository</code> 
+    Added a builder to simplify the creation and configuration of
+    <code>JDBCStateRepository</code>
   %li
     Fixed Togglz Admin Console to work correctly with JSESSIONID in URL
     (see <a href="https://github.com/togglz/togglz/issues/83">#83</a>)
@@ -105,7 +110,7 @@ layout: base
     Added system property <code>org.togglz.DISABLE_JNDI_LOOKUPS</code> to work around issue when
     running on GAE
   %li
-    Fixed NPE in <code>ServerIpActivationStrategy</code> that occurred if running on GAE 
+    Fixed NPE in <code>ServerIpActivationStrategy</code> that occurred if running on GAE
   %li
     Allow users to configure the <code>minCheckInterval</code> of <code>FileBasedStateRepository</code>
     (see <a href="https://github.com/togglz/togglz/issues/64">#64</a>)
@@ -137,20 +142,20 @@ layout: base
 %ul
   %li
     Togglz now allows you to manage the lifecycle of the <code>FeatureManager</code> using a supported DI container
-    like CDI or Spring. To do so, make sure your container manages an instance of 
+    like CDI or Spring. To do so, make sure your container manages an instance of
     <code>FeatureManager</code> (for example by writing a CDI producer method)
-    and then set <code>org.togglz.FEATURE_MANAGER_PROVIDED</code> 
-    in <code>web.xml</code> to <code>true</code> to tell Togglz to skip the automatic bootstrapping process 
-    for a <code>FeatureManager</code> managed by Togglz. 
+    and then set <code>org.togglz.FEATURE_MANAGER_PROVIDED</code>
+    in <code>web.xml</code> to <code>true</code> to tell Togglz to skip the automatic bootstrapping process
+    for a <code>FeatureManager</code> managed by Togglz.
   %li
-    Added the factory bean <code>FeatureManagerFactory</code> that simplifies the creation of a 
+    Added the factory bean <code>FeatureManagerFactory</code> that simplifies the creation of a
     <code>FeatureManager</code> managed by Spring. See the javadocs for
     <a href="http://localhost:4242/apidocs/2.0.0.RC1/org/togglz/spring/manager/FeatureManagerFactory.html">FeatureManagerFactory</a>
     for details.
   %li
     Added a new extension point that allows users to define custom feature metadata attributes. If you are
     using Java enums for declaring your features, you can now define your own annotations to specify metadata
-    for your features. Togglz already provides two annotations <code>@Owner</code> and 
+    for your features. Togglz already provides two annotations <code>@Owner</code> and
     <code>@InfoLink</code> that your can place on your features. If you want to define your own attribute,
     just create an annotation and place <code>@FeatureAttribute</code> on it. Have a look the source of
     <a href="https://github.com/togglz/togglz/blob/master/core/src/main/java/org/togglz/core/annotation/Owner.java">@Owner</a>
@@ -161,7 +166,7 @@ layout: base
   %li
     If you are running Togglz in an servlet environment, the <code>TogglzFilter</code> now tries to autodetect whether
     it should bootstrap a feature manager itself or if you already created one using a supported
-    container like CDI or Spring. This means that you typically don't have to set 
+    container like CDI or Spring. This means that you typically don't have to set
     <code>FEATURE_MANAGER_PROVIDED</code> manually.
 
 %a(name='2.0.0.Beta2')
@@ -171,10 +176,10 @@ layout: base
 %ul
   %li
     The <code>Feature</code> interface doesn't force the user to implement <code>isActive()</code> anymore.
-    <u>Please note that this change requires you to remove the <code>@Override</code> annotation from your implementation of 
+    <u>Please note that this change requires you to remove the <code>@Override</code> annotation from your implementation of
     the method.</u>
   %li
-    Fixed a bug that caused <code>JDBCStateRepository</code> too work in the wrong database schema 
+    Fixed a bug that caused <code>JDBCStateRepository</code> too work in the wrong database schema
     (see <a href="https://github.com/togglz/togglz/issues/38">#38</a>).
   %li
     The new Togglz JSP integration module provides a JSP taglib that simplifies checking feature states
@@ -183,8 +188,8 @@ layout: base
     Added <code>SingleUserProvider</code> to simplify configuration of environments where only one (virtual) user exists.
   %li
     Feature definitions can now be configured using property files instead of a Java enum. This can be especially
-    useful in distributed environments where components doesn't share any code. 
-    Thanks to <a href="https://github.com/maurotalevi">Mauro Talevi</a> for implementing this feature.  
+    useful in distributed environments where components doesn't share any code.
+    Thanks to <a href="https://github.com/maurotalevi">Mauro Talevi</a> for implementing this feature.
   %li
     Added new <code>NamedFeature</code> to replace the deprecated <code>UntypedFeature</code>
   %li
@@ -198,18 +203,18 @@ layout: base
 %ul
   %li
     The core classes of Togglz don't assume that features are declared using Java enums any more. This allows users
-    to use different approaches to define which features are available. Users could for example use a database to manage 
+    to use different approaches to define which features are available. Users could for example use a database to manage
     the features and their metadata.
   %li
-    The new <code>StaticFeatureManagerProvider</code> simplifies the configuration of Togglz in standalone applications. 
+    The new <code>StaticFeatureManagerProvider</code> simplifies the configuration of Togglz in standalone applications.
   %li
     Two new activation strategies have been added to Togglz. The <i>Client IP</i> strategy allows to enable features only
     for a specific number of client IP addresses. This strategy is useful if features should be active for users
     accessing a site from a specific location. The <i>Server IP</i> strategy behaves similar. But instead of the client IP, it uses
     the server's IP address. This strategy can be used for canary testing if you want to activate a feature only
-    on a specific server of you cluster.  
+    on a specific server of you cluster.
   %li
-    Typically users configure Togglz by implementing the <code>TogglzConfig</code> interface. As an alternative to this, 
+    Typically users configure Togglz by implementing the <code>TogglzConfig</code> interface. As an alternative to this,
     you can now implement <code>TogglzBootstrap</code> instead. Doing this allows you to configure more aspects of Togglz as you can
     directly interact with the <code>FeatureManagerBuilder</code> instead of just configuring some of it's properties.
   %li
@@ -225,17 +230,17 @@ layout: base
 
 %ul
   %li
-    The most noteworthy change in this version is the new extensible feature activation mechanism, that allows 
+    The most noteworthy change in this version is the new extensible feature activation mechanism, that allows
     to implement custom strategies for activating features based on arbitrary conditions. As you know, Togglz already
-    allowed to restrict features to a given list of users. Togglz 2.0.0.Alpha1 now also supports to activate features 
-    for a given percentage of users (gradual rollouts) or at a specific point in time (timed rollouts). 
-    There is also an generic strategy based on Java's 
-    <a href="http://docs.oracle.com/javase/7/docs/api/javax/script/ScriptEngine.html">ScriptEngine</a>, 
+    allowed to restrict features to a given list of users. Togglz 2.0.0.Alpha1 now also supports to activate features
+    for a given percentage of users (gradual rollouts) or at a specific point in time (timed rollouts).
+    There is also an generic strategy based on Java's
+    <a href="http://docs.oracle.com/javase/7/docs/api/javax/script/ScriptEngine.html">ScriptEngine</a>,
     that allows you to write strategies using script languages (like JavaScript) and update them at runtime.
   %li
     As Togglz now allows to implement custom strategies for activating features, the data model of the persisted
-    feature state had to change. Togglz will automatically migrate the data persisted by previous versions  
-    (like the properties file or the database table) to the new format. However this has one drawback. 
+    feature state had to change. Togglz will automatically migrate the data persisted by previous versions
+    (like the properties file or the database table) to the new format. However this has one drawback.
     Older versions of Togglz won't be able to read the new data format any more. So going back to an older version
     of Togglz will be difficult. <u>So please take special care and backup your state repository data</u>.
   %li
@@ -252,11 +257,11 @@ layout: base
 
 %ul
   %li
-    Fixed issue in FileBasedStateRepository and InMemoryStateRepository which may lead to data corruption 
-    of the repository data in case of conurrent writes (see <a href="https://github.com/togglz/togglz/issues/21">#21</a>). 
+    Fixed issue in FileBasedStateRepository and InMemoryStateRepository which may lead to data corruption
+    of the repository data in case of conurrent writes (see <a href="https://github.com/togglz/togglz/issues/21">#21</a>).
     Special thanks to <a href="https://github.com/jadlr">Jonas Adler</a> for bringing this up.
   %li
-    Fixed SPI implementation ordering issue for priority of Integer.MIN_VALUE 
+    Fixed SPI implementation ordering issue for priority of Integer.MIN_VALUE
     (see <a href="https://github.com/togglz/togglz/issues/22">#22</a>).
 
 %a(name='1.1.0')
@@ -265,13 +270,13 @@ layout: base
 
 %ul
   %li
-    The new <a href="/apidocs/1.1.0.Final/org/togglz/core/repository/cache/CachingStateRepository.html">CachingStateRepository</a> 
+    The new <a href="/apidocs/1.1.0.Final/org/togglz/core/repository/cache/CachingStateRepository.html">CachingStateRepository</a>
     allows to add caching capabilities to existing state repositories. See the chapter on
-    <a href="/documentation/repositories.html#CachingStateRepository">State Repositories</a> for details. 
+    <a href="/documentation/repositories.html#CachingStateRepository">State Repositories</a> for details.
   %li
-    The Spring integration module now contains the 
+    The Spring integration module now contains the
     <a href="/apidocs/1.1.0.Final/org/togglz/spring/proxy/FeatureProxyFactoryBean.html">FeatureProxyFactoryBean</a>, which
-    allows to use different Spring beans depending on a specific feature state. The 
+    allows to use different Spring beans depending on a specific feature state. The
     <a href="/documentation/usage.html#FeatureProxyFactoryBean">Usage</a> chapter contains concrete examples on how
     to configure this factory bean.
   %li
@@ -290,5 +295,3 @@ layout: base
 %ul
   %li
     First official version. No changes since the last release. :)
-  
-  
