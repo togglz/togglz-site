@@ -1,0 +1,175 @@
+---
+layout: base
+---
+
+%h1
+  Spring Boot Starter <span class="label label-important">since 2.3.0</span>
+
+%h2
+  Getting Started
+
+%p
+  Add the Togglz Spring Boot Starter dependency to your project:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring-boot-starter</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+
+%p
+  Or when using Gradle simply:
+  
+%pre(class="prettyprint")
+  :escaped
+    compile("org.togglz:togglz-spring-boot-starter:#{site.stableVersion}")
+
+%p
+  The starter will not only add the <code>togglz-core</code> and <code>togglz-spring-core</code> modules to your project,
+  it will also enable the auto configuration of the Togglz configration.
+
+%p
+  Optionally add the <code>togglz-console</code>, <code>togglz-spring-security</code>, <code>togglz-junit</code> and <code>thymeleaf-extras-togglz</code> modules:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz Admin Console (optional) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-console</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+    
+    <!-- Togglz Spring Security (optional) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring-security</artifactId>
+      <version>#{site.stableVersion}</version>
+    </dependency>
+    
+    <!-- Togglz JUnit Testing Support (optional) -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-junit</artifactId>
+      <version>#{site.stableVersion}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Thymeleaf Togglz Dialect (optional) -->
+    <dependency>
+      <groupId>com.github.heneke.thymeleaf</groupId>
+      <artifactId>thymeleaf-extras-togglz</artifactId>
+      <version>1.0.1.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+
+%p
+  Or when using Gradle:
+  
+%pre(class="prettyprint")
+  :escaped
+    compile("org.togglz:togglz-console:#{site.stableVersion}")
+    compile("org.togglz:togglz-spring-security:#{site.stableVersion}")
+    compile("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:1.0.1.RELEASE")
+    testCompile("org.togglz:togglz-junit:#{site.stableVersion}")
+
+%h2
+  Auto Configuration
+
+%p
+  The <code>togglz-spring-boot-starter</code> will automatically trigger the Togglz Spring Boot auto configuration.
+  It will create all necessary beans and in particular the Togglz <code>FeatureManager</code>.
+
+  The only thing that needs to provided is a <code>FeaturesProvider</code> e.g.:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    public enum MyFeatures implements Feature {
+
+        @EnabledByDefault
+        @Label("First Feature")
+        FEATURE_ONE,
+    
+        @Label("Second Feature")
+        FEATURE_TWO;
+
+        public boolean isActive() {
+            return FeatureContext.getFeatureManager().isActive(this);
+        }
+    }
+
+    @Bean
+    public FeatureProvider featureProvider() {
+        return new EnumBasedFeatureProvider(MyFeatures.class);
+    }
+
+%p
+  Alternatively the <code>togglz.feature-enums</code> application property can be provided so even the <code>FeatureProvider</code> is not needed.
+
+%p
+  By default the auto configuration will use a <code>NoOpUserProvider</code> and when Spring Security is used a <code>SpringSecurityUserProvider</code>.
+
+%p
+  If the <code>togglz-console</code> module is added then the <code>TogglzConsoleServlet</code> is registered using a <code>ServletRegistrationBean</code>.
+
+%p
+  Also any beans of type <code>ActivationStrategy</code> found in the application content will be added to the <code>FeatureManager</code> automatically.
+
+%p
+  If you define a <code>UserProvider</code>, <code>StateRepository</code>, <code>ActivationStrategyProvider</code> or even a <code>FeatureManager</code> 
+  manually the auto configuration will not create these beans and will use the ones already available in the application context.
+
+%p
+  The auto configuration also supports providing feature values inside your application.properties/application.yml.
+  See an example below of the application.yml. Note this is a Spring Boot in-memory implementation of a <code>StateRepository</code> which does not persist edited features.
+  If persistence is needed a <code>FileBasedStateRepository</code>, <code>JDBCStateRepository</code> or any other applicable <code>StateRepository</code> must be added to the application context manually. 
+  When you want to use a <code>FileBasedStateRepository</code> you can also use this by providing a <code>togglz.features-file</code> application property.
+  If the <code>togglz.features-file</code> is provided this will take precedence over features provided via application properties and effectively ignoring <code>togglz.features</code>.
+
+%h2
+  Admin Console Security
+
+%p
+  By default the Togglz admin console is secured using the <code>UserProvider</code> bean. 
+  Which <code>UserProvider</code> bean the auto configuration configures depends on the availability of the Spring Security dependency. 
+  If Spring Security is on the classpath a <code>SpringSecurityUserProvider</code> is configured. 
+  In this case it will check if the user has the authority as provided by the <code>togglz.console.feature-admin-authority</code> application property. 
+  If Spring Security is not on the classpath a <code>NoOpUserProvider</code> is configured which provides a <code>null</code> user to the admin console servlet. 
+  This also means the admin console will not be accessible. For quick testing the <code>togglz.console.secured</code> application property can be set to <code>false</code>.
+  This will bypass security completely for the admin console. Be careful in production with this setting as it will give everybody access to the admin console. 
+  Setting <code>togglz.console.secured</code> to <code>false</code> is also useful when you want to protect the admin console independently from the <code>UserProvider</code>.
+
+%h2
+  Application Properties
+
+%p
+  The following properties can be specified inside your application.properties/application.yml file or as command line switches:
+
+%pre(class="prettyprint lang-bsh")
+  :escaped
+    togglz:
+      enabled: true # Enable Togglz for the application.
+      feature-enums: # Comma-separated list of fully-qualified feature enum class names.
+      feature-manager-name: # The name of the feature manager.
+      features: # The feature states. Only needed if feature states are stored in application properties.
+        HELLO_WORLD: true
+        REVERSE_GREETING: true
+        REVERSE_GREETING.strategy: username
+        REVERSE_GREETING.param.users: user2, user3
+      features-file: # The path to the features file that contains the feature states. Only needed if feature states are stored in external properties file.
+      features-file-min-check-interval: # The minimum amount of time in milliseconds to wait between checks of the file's modification date.
+      cache:
+        enabled: false # Enable feature state caching.
+        time-to-live: 0 # The time after which a cache entry will expire.
+        time-unit: milliseconds # The time unit as java.util.concurrent.TimeUnit enum name (one of "nanoseconds", "microseconds", "milliseconds", "seconds", "minutes", "hours", "days").
+      console:
+        enabled: true # Enable admin console.
+        path: /togglz-console # The path of the admin console when enabled.
+        feature-admin-authority: ROLE_ADMIN # The name of the authority that is allowed to access the admin console.
+        secured: true # Indicates if the admin console runs in secured mode. If false the application itself should take care of securing the admin console.
+      endpoint:
+        id: togglz # The endpoint identifier.
+        enabled: true # Enable actuator endpoint.
+        sensitive: true # Indicates if the endpoint exposes sensitive information.
