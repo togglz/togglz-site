@@ -9,6 +9,31 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.3.0.RC1')
+%h2
+  Togglz 2.3.0.RC1
+
+%ul
+  %li
+    New Spring Boot Starter module. Many thanks to
+    <a href="https://github.com/marceloverdijk">Marcel Overdijk</a> for his
+    contribution and his help with getting Togglz to work with Spring Boot.
+    (see <a href="https://github.com/togglz/togglz/issue/134">#134</a> and
+    <a href="https://github.com/togglz/togglz/pull/154">#154</a>)
+  %li
+    New Hazelcast module. Many thanks to
+    <a href="https://github.com/camielza">Camiel de Vleeschauwer</a> for his contribution.
+    (see <a href="https://github.com/togglz/togglz/pull/153">#153</a>)
+  %li
+    Many minor improvements for the Spring <code>BeanFinder</code> implementations which
+    now should work much better especially in non Spring Web environments.
+  %li
+    New annotation <code>@DefaultActivationStrategy</code> which can be used to specify a
+    default strategy for a feature directly on the enum.
+    (see <a href="https://github.com/togglz/togglz/pull/141">#141</a>)
+  %li
+    Many minor improvements and bugfixes...
+
 %a(name='2.2.0.Final')
 %h2
   Togglz 2.2.0.Final
