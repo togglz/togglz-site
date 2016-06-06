@@ -9,6 +9,29 @@ layout: base
   This page contains some details about the latest changes made to Togglz and which new features have been added
   in the recent releases.
 
+%a(name='2.3.0-SNAPSHOT')
+%h2
+  Togglz 2.3.0-SNAPSHOT
+
+%ul
+  %li
+    New Apache Zookeeper integration module. Many thanks to
+    <a href="https://github.com/ryangardner">Ryan Gardner</a> and his team
+    for this awesome contribution.
+    (see <a href="https://github.com/togglz/togglz/pull/162">#162</a>)
+  %li
+    New System Property activation strategy
+    (see <a href="https://github.com/togglz/togglz/pull/163">#163</a>)
+  %li
+    Major performance improvements for looking up the FeatureManager
+    (see <a href="https://github.com/togglz/togglz/pull/158">#158</a>)
+  %li
+    New JMH benchmark test suite for tracking performance problems
+    (see <a href="https://github.com/togglz/togglz/pull/159">#159</a>)
+  %li
+    Fixed issue that caused failing integration tests when using the
+    Spring Boot integration module
+
 %a(name='2.3.0.RC1')
 %h2
   Togglz 2.3.0.RC1
