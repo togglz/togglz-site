@@ -3,7 +3,7 @@
  *             Layout
  * ================================
  */
- 
+
 #header {
   padding: 20px;
   background-color: #EBFFF4;
@@ -121,7 +121,7 @@ footer {
 }
 
 .togglz .content .biglink {
-  font-size: 20px; 
+  font-size: 20px;
   text-align: center;
   font-family: monospace;
   padding: 10px 0px;
@@ -147,4 +147,10 @@ footer {
 .togglz table.definition td.left {
   vertical-align: top;
   width: 20%;
+}
+
+li.donate {
+  width: 100%;
+  text-align: center;
+  margin-top: 6px;
 }
