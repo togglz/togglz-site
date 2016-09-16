@@ -126,6 +126,9 @@ layout: base
   If persistence is needed a <code>FileBasedStateRepository</code>, <code>JDBCStateRepository</code> or any other applicable <code>StateRepository</code> must be added to the application context manually. 
   When you want to use a <code>FileBasedStateRepository</code> you can also use this by providing a <code>togglz.features-file</code> application property.
   If the <code>togglz.features-file</code> is provided this will take precedence over features provided via application properties and effectively ignoring <code>togglz.features</code>.
+  The <code>togglz.features-file</code> property is processed by <code>getResource()</code> so in most cases you should provide a
+  file url for this property. To get a file in the local working directory you may use something like
+  <code>togglz.features-file = file:./togglz.properties</code>.
 
 %h2
   Admin Console Security
