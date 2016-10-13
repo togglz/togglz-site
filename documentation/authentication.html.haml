@@ -210,7 +210,7 @@ layout: base
     }
 
 %p
-  Then register the <code>ThreadLocaleUserProvider</code> in your <code>TogglzConfig</code> like this:
+  Then register the <code>ThreadLocalUserProvider</code> in your <code>TogglzConfig</code> like this:
 
 %pre(class="prettyprint lang-java")
   :escaped
@@ -220,7 +220,7 @@ layout: base
     
         @Override
         public UserProvider getUserProvider() {
-            return new ThreadLocaleUserProvider();
+            return new ThreadLocalUserProvider();
         }
     }
 
