@@ -21,7 +21,7 @@ layout: base
 
 %p
   Or when using Gradle simply:
-  
+
 %pre(class="prettyprint")
   :escaped
     compile("org.togglz:togglz-spring-boot-starter:#{site.stableVersion}")
@@ -41,14 +41,14 @@ layout: base
       <artifactId>togglz-console</artifactId>
       <version>#{site.stableVersion}</version>
     </dependency>
-    
+
     <!-- Togglz Spring Security (optional) -->
     <dependency>
       <groupId>org.togglz</groupId>
       <artifactId>togglz-spring-security</artifactId>
       <version>#{site.stableVersion}</version>
     </dependency>
-    
+
     <!-- Togglz JUnit Testing Support (optional) -->
     <dependency>
       <groupId>org.togglz</groupId>
@@ -56,7 +56,7 @@ layout: base
       <version>#{site.stableVersion}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <!-- Thymeleaf Togglz Dialect (optional) -->
     <dependency>
       <groupId>com.github.heneke.thymeleaf</groupId>
@@ -66,7 +66,7 @@ layout: base
 
 %p
   Or when using Gradle:
-  
+
 %pre(class="prettyprint")
   :escaped
     compile("org.togglz:togglz-console:#{site.stableVersion}")
@@ -90,7 +90,7 @@ layout: base
         @EnabledByDefault
         @Label("First Feature")
         FEATURE_ONE,
-    
+
         @Label("Second Feature")
         FEATURE_TWO;
 
@@ -117,13 +117,13 @@ layout: base
   Also any beans of type <code>ActivationStrategy</code> found in the application content will be added to the <code>FeatureManager</code> automatically.
 
 %p
-  If you define a <code>UserProvider</code>, <code>StateRepository</code>, <code>ActivationStrategyProvider</code> or even a <code>FeatureManager</code> 
+  If you define a <code>UserProvider</code>, <code>StateRepository</code>, <code>ActivationStrategyProvider</code> or even a <code>FeatureManager</code>
   manually the auto configuration will not create these beans and will use the ones already available in the application context.
 
 %p
   The auto configuration also supports providing feature values inside your application.properties/application.yml.
   See an example below of the application.yml. Note this is a Spring Boot in-memory implementation of a <code>StateRepository</code> which does not persist edited features.
-  If persistence is needed a <code>FileBasedStateRepository</code>, <code>JDBCStateRepository</code> or any other applicable <code>StateRepository</code> must be added to the application context manually. 
+  If persistence is needed a <code>FileBasedStateRepository</code>, <code>JDBCStateRepository</code> or any other applicable <code>StateRepository</code> must be added to the application context manually.
   When you want to use a <code>FileBasedStateRepository</code> you can also use this by providing a <code>togglz.features-file</code> application property.
   If the <code>togglz.features-file</code> is provided this will take precedence over features provided via application properties and effectively ignoring <code>togglz.features</code>.
   The <code>togglz.features-file</code> property is processed by <code>getResource()</code> so in most cases you should provide a
@@ -134,13 +134,13 @@ layout: base
   Admin Console Security
 
 %p
-  By default the Togglz admin console is secured using the <code>UserProvider</code> bean. 
-  Which <code>UserProvider</code> bean the auto configuration configures depends on the availability of the Spring Security dependency. 
-  If Spring Security is on the classpath a <code>SpringSecurityUserProvider</code> is configured. 
-  In this case it will check if the user has the authority as provided by the <code>togglz.console.feature-admin-authority</code> application property. 
-  If Spring Security is not on the classpath a <code>NoOpUserProvider</code> is configured which provides a <code>null</code> user to the admin console servlet. 
+  By default the Togglz admin console is secured using the <code>UserProvider</code> bean.
+  Which <code>UserProvider</code> bean the auto configuration configures depends on the availability of the Spring Security dependency.
+  If Spring Security is on the classpath a <code>SpringSecurityUserProvider</code> is configured.
+  In this case it will check if the user has the authority as provided by the <code>togglz.console.feature-admin-authority</code> application property.
+  If Spring Security is not on the classpath a <code>NoOpUserProvider</code> is configured which provides a <code>null</code> user to the admin console servlet.
   This also means the admin console will not be accessible. For quick testing the <code>togglz.console.secured</code> application property can be set to <code>false</code>.
-  This will bypass security completely for the admin console. Be careful in production with this setting as it will give everybody access to the admin console. 
+  This will bypass security completely for the admin console. Be careful in production with this setting as it will give everybody access to the admin console.
   Setting <code>togglz.console.secured</code> to <code>false</code> is also useful when you want to protect the admin console independently from the <code>UserProvider</code>.
 
 %h2
@@ -171,6 +171,7 @@ layout: base
         path: /togglz-console # The path of the admin console when enabled.
         feature-admin-authority: ROLE_ADMIN # The name of the authority that is allowed to access the admin console.
         secured: true # Indicates if the admin console runs in secured mode. If false the application itself should take care of securing the admin console.
+        use-management-port: true # Indicates if the admin console runs on the management port. If no management port is configured it will run on the application port.
       endpoint:
         id: togglz # The endpoint identifier.
         enabled: true # Enable actuator endpoint.
