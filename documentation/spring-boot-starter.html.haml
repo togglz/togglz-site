@@ -176,7 +176,7 @@ layout: base
         path: /togglz-console # The path of the admin console when enabled.
         feature-admin-authority: ROLE_ADMIN # The name of the authority that is allowed to access the admin console.
         secured: true # Indicates if the admin console runs in secured mode. If false the application itself should take care of securing the admin console.
-        use-management-port: true # Indicates if the admin console runs on the management port. If no management port is configured it will run on the application port.
+        use-management-port: true # Indicates if the admin console runs on the management port. If no management port is configured it will run on the application port. If set to true the console path will also be prefixed with the management.context-path.
       endpoint:
         id: togglz # The endpoint identifier.
         enabled: true # Enable actuator endpoint.
