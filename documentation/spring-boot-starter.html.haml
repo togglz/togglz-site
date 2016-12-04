@@ -143,6 +143,11 @@ layout: base
   This will bypass security completely for the admin console. Be careful in production with this setting as it will give everybody access to the admin console.
   Setting <code>togglz.console.secured</code> to <code>false</code> is also useful when you want to protect the admin console independently from the <code>UserProvider</code>.
 
+%p
+  Note that by default the Admin Console runs on the management port (if configured).
+  If the management port (<code>management.port</code>) is not configured it will run on the application port.
+  Setting <code>togglz.console.use-management-port</code> to <code>false</code> will always run the Admin Console on the application port.
+
 %h2
   Application Properties
 
