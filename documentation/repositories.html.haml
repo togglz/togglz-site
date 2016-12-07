@@ -104,6 +104,23 @@ layout: base
   correctly. <code>JDBCStateRepository</code> will automatically create the required table on the 
   first connection to the database. 
 
+%h2
+  MongoStateRepository
+
+%p
+  This repository stores feature state in a MongoDB database.
+
+%p
+  At a minimum, you must provide a MongoClient instance and the name of the database. You can optionally override the name
+  of the collection used to store feature state (defaults to 'togglz') and the default WriteConcern (ACKNOWLEDGED).
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    StateRepository stateRepository = MongoStateRepository.newBuilder(mongoClient, "myDatabase")
+            .collection('myFeatureState')
+            .writeConcern(WriteConcern.REPLICA_ACKNOWLEDGED)
+            .build();
+
 %a(name='CachingStateRepository')
 %h2
   CachingStateRepository <span class="label label-important">since 1.1.0</span>
