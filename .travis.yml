@@ -6,11 +6,12 @@ script:
   - awestruct -P production
 before_deploy:
   - npm i netlify-cli
+  - ( cd _site && zip -r ../site.zip * )
 deploy:
   provider: script
   skip_cleanup: true
   script:
-    - node_modules/.bin/netlify deploy -s www-togglz-org -t $ACCESS_TOKEN -p _site
+    - node_modules/.bin/netlify deploy -s www-togglz-org -t $ACCESS_TOKEN -p site.zip
   on:
     repo: togglz/togglz-site
     branch: master
