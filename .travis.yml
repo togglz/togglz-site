@@ -6,7 +6,7 @@ script:
   - awestruct -P production
 deploy:
   provider: script
-  script: cd ${TRAVIS_BUILD_DIR} && ./_deploy.sh
+  script: ./_deploy.sh
   skip_cleanup: true
   on:
     repo: togglz/togglz-site
