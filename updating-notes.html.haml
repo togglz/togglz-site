@@ -12,6 +12,26 @@ layout: base
   So please have a look at the sections on this page before updating.
 
 %h2
+  Updating to Togglz 2.5.0 from 2.4.0
+
+%h3
+  Spring Configuration
+
+%p
+  A Spring Boot application that includes the Togglz starter will automatically be able to pick up feature configuration from the Spring <code>Environment</code>. When migrating from older versions the "enabled" flag has to be inserted after the feature name. Example, in 2.4.0:
+
+%pre
+  :escaped
+    togglz.features.FOO=true
+
+%p
+  becomes in 2.5.0:
+
+%pre
+  :escaped
+    togglz.features.FOO.enabled=true
+
+%h2
   Updating to Togglz 2.3.0 from 2.2.0
 
 %h3

@@ -31,7 +31,7 @@ layout: base
   it will also enable the auto configuration of the Togglz configration.
 
 %p
-  Optionally add the <code>togglz-console</code>, <code>togglz-spring-security</code>, <code>togglz-junit</code> and <code>thymeleaf-extras-togglz</code> modules:
+  Optionally add the <code>togglz-console</code>, <code>togglz-spring-security</code> and <code>thymeleaf-extras-togglz</code> modules:
 
 %pre(class="prettyprint lang-xml")
   :escaped
@@ -49,14 +49,6 @@ layout: base
       <version>#{site.stableVersion}</version>
     </dependency>
 
-    <!-- Togglz JUnit Testing Support (optional) -->
-    <dependency>
-      <groupId>org.togglz</groupId>
-      <artifactId>togglz-junit</artifactId>
-      <version>#{site.stableVersion}</version>
-      <scope>test</scope>
-    </dependency>
-
     <!-- Thymeleaf Togglz Dialect (optional) -->
     <dependency>
       <groupId>com.github.heneke.thymeleaf</groupId>
@@ -72,7 +64,6 @@ layout: base
     compile("org.togglz:togglz-console:#{site.stableVersion}")
     compile("org.togglz:togglz-spring-security:#{site.stableVersion}")
     compile("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:1.0.1.RELEASE")
-    testCompile("org.togglz:togglz-junit:#{site.stableVersion}")
 
 %h2
   Auto Configuration
@@ -80,8 +71,48 @@ layout: base
 %p
   The <code>togglz-spring-boot-starter</code> will automatically trigger the Togglz Spring Boot auto configuration.
   It will create all necessary beans and in particular the Togglz <code>FeatureManager</code>.
+  You can <code>@Autowired</code> the <code>FeatureManager</code> into your application code, and then use
+  it to check if a feature is enabled, e.g.
 
-  The only thing that needs to provided is a <code>FeaturesProvider</code> e.g.:
+%pre(class="prettyprint lang-java")
+  :escaped
+    @Autowired
+    private FeatureManager manager;
+
+    @RequestMapping("/")
+    public ResponseEntity<?> index() {
+        if (manager.isActive(HELLO_WORLD)) {
+             ...
+        }
+    }
+
+%p
+  The only thing that needs to be provided is configuration for the features you want to create. You can use Spring environment properties to create, enable and configure features. E.g. in <code>application.properties</code>:
+
+%pre
+  :escaped
+    togglz.features.FOO.enabled=true
+    togglz.features.BAR.enabled=false
+
+%p
+  or <code>application.yml</code>:
+
+%pre
+  :escaped
+    togglz:
+      features:
+        FOO
+          enabled:true
+        BAR:
+          enabled: false
+
+%p
+  Features can also be grouped using <code>togglz.features.{FEATURE}.groups</code>, assigned an activation strategy by <code>togglz.features.{FEATURE}.strategy</code>, and the activation can be passed parameters using <code>togglz.features.{FEATURE}.param.*</code>.
+
+%p
+  Alternatively, or additionally, the <code>togglz.feature-enums</code> application property can be provided to create features from one or more enum classes.
+
+  You can also provide features through an explicit <code>FeaturesProvider</code> e.g.:
 
 %pre(class="prettyprint lang-java")
   :escaped
@@ -93,19 +124,12 @@ layout: base
 
         @Label("Second Feature")
         FEATURE_TWO;
-
-        public boolean isActive() {
-            return FeatureContext.getFeatureManager().isActive(this);
-        }
     }
 
     @Bean
     public FeatureProvider featureProvider() {
         return new EnumBasedFeatureProvider(MyFeatures.class);
     }
-
-%p
-  Alternatively the <code>togglz.feature-enums</code> application property can be provided so even the <code>FeatureProvider</code> is not needed.
 
 %p
   By default the auto configuration will use a <code>NoOpUserProvider</code> and when Spring Security is used a <code>SpringSecurityUserProvider</code>.
@@ -121,7 +145,7 @@ layout: base
   manually the auto configuration will not create these beans and will use the ones already available in the application context.
 
 %p
-  The auto configuration also supports providing feature values inside your application.properties/application.yml.
+  The auto configuration supports providing feature state inside your application.properties/application.yml.
   See an example below of the application.yml. Note this is a Spring Boot in-memory implementation of a <code>StateRepository</code> which does not persist edited features.
   If persistence is needed a <code>FileBasedStateRepository</code>, <code>JDBCStateRepository</code> or any other applicable <code>StateRepository</code> must be added to the application context manually.
   When you want to use a <code>FileBasedStateRepository</code> you can also use this by providing a <code>togglz.features-file</code> application property.
@@ -161,10 +185,13 @@ layout: base
       feature-enums: # Comma-separated list of fully-qualified feature enum class names.
       feature-manager-name: # The name of the feature manager.
       features: # The feature states. Only needed if feature states are stored in application properties.
-        HELLO_WORLD: true
-        REVERSE_GREETING: true
-        REVERSE_GREETING.strategy: username
-        REVERSE_GREETING.param.users: user2, user3
+        HELLO_WORLD:
+          enabled: true
+        REVERSE_GREETING:
+          enabled: true
+          strategy: username
+          param:
+            users: user2, user3
       features-file: # The path to the features file that contains the feature states. Only needed if feature states are stored in external properties file.
       features-file-min-check-interval: # The minimum amount of time in milliseconds to wait between checks of the file's modification date.
       cache:
