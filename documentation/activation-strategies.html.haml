@@ -33,6 +33,9 @@ layout: base
   %li
     %a(href='#script-engine')
       ScriptEngine
+  %li
+    %a(href='#property')
+      System Properties
 
 %p
   The following sections will describe each strategy in detail. The last section
@@ -161,7 +164,19 @@ layout: base
 %p
   Please double check your script before using it for a feature. If the script evaluation
   fails due to some error, the feature will be inactive.
-  
+
+%a(name='property')
+%h2
+  System Properties
+
+%p
+  The System Properties Activation Strategy allows you to define a strategy that enables or disables a flag
+  based on a system property being set.
+
+%p
+  The activation strategy has two parameters. The first one is used to specify the property name to use
+  (e.g. <code>togglz.FEATURE_ONE</code>). The second parameter is the value to compare against.  If the property
+  value matches the expected value, the feature will be on, otherwise it will be off.
   
 %a(name='custom')
 %h2

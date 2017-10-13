@@ -8,3 +8,5 @@ _rewrite.log
 .project
 .awestruct
 _site.zip
+.idea
+*.iml

@@ -58,7 +58,9 @@ layout: base
   %li
     <code>@Label</code>: This annotation can be used to specify a human readable label for the feature. This label will for example be used in the Togglz Admin Console.
   %li
-    <code>@EnabledByDefault</code>: Typically a feature will be disabled per default if no other feature state has been persisted before. If you annotate a feature with this annotation, the feature will be enabled instead.  
+    <code>@EnabledByDefault</code>: Typically a feature will be disabled per default if no other feature state has been persisted before. If you annotate a feature with this annotation, the feature will be enabled instead.
+  %li
+    <code>@DefaultActivationStrategy</code>: When initializing the toggle, the default strategy to use for this toggle.  It takes the ID of the strategy as an argument.  It supports an optional array of child <code>@ActivationParameter</code> to define the key and value to use for activation of this property.
 
 %p
   Besides the feature declaration a feature enum typically also declares a single public method called 
