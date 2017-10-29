@@ -1,6 +1,6 @@
-stableVersion: 2.4.1.Final
-developmentVersion: 2.5.0-SNAPSHOT
-jdkJavadocsBase: http://docs.oracle.com/javase/7/docs/api
+stableVersion: 2.5.0.Final
+developmentVersion: 2.6.0-SNAPSHOT
+jdkJavadocsBase: http://docs.oracle.com/javase/8/docs/api
 profiles:
   development:
     showBuildStatus: false
