@@ -71,20 +71,28 @@ layout: base
 %p
   The <code>togglz-spring-boot-starter</code> will automatically trigger the Togglz Spring Boot auto configuration.
   It will create all necessary beans and in particular the Togglz <code>FeatureManager</code>.
-  You can <code>@Autowired</code> the <code>FeatureManager</code> into your application code, and then use
-  it to check if a feature is enabled, e.g.
+  You can inject the <code>FeatureManager</code> into your application code (using <a href="https://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/beans.html#beans-constructor-injection" target="_blank">constructor injection</a>), and then use it to check if a feature is enabled, e.g.
 
 %pre(class="prettyprint lang-java")
   :escaped
-    @Autowired
-    private FeatureManager manager;
+    @Controller
+    public class MyClass {
+      private FeatureManager manager;
 
-    @RequestMapping("/")
-    public ResponseEntity<?> index() {
-        if (manager.isActive(HELLO_WORLD)) {
-             ...
-        }
+      public MyClass(FeatureManager manager) {
+          this.manager = manager;
+      }
+
+      @RequestMapping("/")
+      public ResponseEntity<?> index() {
+          if (manager.isActive(HELLO_WORLD)) {
+               ...
+          }
+      }
     }
+
+%p
+  <i>(Note, that since Spring Framework 4.3, <a href="https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3" target="_blank">implicit constructor injection is possible</a>, so you don't need to annotate your constructor explicitly with <code>@Autowired</code>.)</i>
 
 %p
   The only thing that needs to be provided is configuration for the features you want to create. You can use Spring environment properties to create, enable and configure features. E.g. in <code>application.properties</code>:
