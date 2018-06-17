@@ -9,7 +9,7 @@ layout: base
   Getting Started
 
 %p
-  Add the Togglz Spring Boot Starter dependency to your project:
+  For Spring Boot 2.x support, add the Togglz Spring Boot Starter dependency to your project:
 
 %pre(class="prettyprint lang-xml")
   :escaped
@@ -25,6 +25,10 @@ layout: base
 %pre(class="prettyprint")
   :escaped
     compile("org.togglz:togglz-spring-boot-starter:#{site.stableVersion}")
+
+%p
+  <i>(Note, for Spring Boot 1.x support, replace <code>org.togglz:togglz-spring-boot-starter:#{site.stableVersion}</code> with 
+  <code>org.togglz:togglz-legacy-spring-boot-starter:#{site.stableVersion}</code>.)</i>
 
 %p
   The starter will not only add the <code>togglz-core</code> and <code>togglz-spring-core</code> modules to your project,
@@ -212,7 +216,7 @@ layout: base
         feature-admin-authority: ROLE_ADMIN # The name of the authority that is allowed to access the admin console.
         secured: true # Indicates if the admin console runs in secured mode. If false the application itself should take care of securing the admin console.
         use-management-port: true # Indicates if the admin console runs on the management port. If no management port is configured it will run on the application port. If set to true the console path will also be prefixed with the management.context-path.
-      endpoint:
+      endpoint: # Only for Spring Boot 1.x (for Spring Boot 2.x see https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html)
         id: togglz # The endpoint identifier.
         enabled: true # Enable actuator endpoint.
         sensitive: true # Indicates if the endpoint exposes sensitive information.
