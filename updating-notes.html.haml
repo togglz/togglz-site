@@ -12,6 +12,41 @@ layout: base
   So please have a look at the sections on this page before updating.
 
 %h2
+  Updating to Togglz 2.6.0 from 2.5.0
+
+%h3
+  Spring Boot 2.0
+
+%p
+  The Togglz Spring Boot integration now requires Spring Boot 2.0 or newer. 
+  If you are still using Spring Boot 1.x, you will have to use the 
+  <code>togglz-legacy-spring-boot-starter</code> module.
+
+%p
+  %strong
+    Spring Boot 2.0
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-spring-boot-starter</artifactId>
+      <version>2.6.0.Final</version>
+    </dependency>
+
+%p
+  %strong
+    Spring Boot 1.x
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-legacy-spring-boot-starter</artifactId>
+      <version>2.6.0.Final</version>
+    </dependency>
+
+%h2
   Updating to Togglz 2.5.0 from 2.4.0
 
 %h3
