@@ -28,5 +28,5 @@ Install the required dependencies
 
 Run the dev mode:
 
-    $ cd /opt/togglz-size
+    $ cd /opt/togglz-site
     $ awestruct -b 0.0.0.0 -d
