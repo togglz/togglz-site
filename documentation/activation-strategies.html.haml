@@ -6,8 +6,8 @@ layout: base
   Activation Strategies
 
 %p
-  Togglz defines the concept of <i>activation strategies</i>. They are responsible to
-  decide whether an enabled feature is active or not. Activation strategies can for example
+  Togglz defines the concept of <i>activation strategies</i>. They are responsible for
+  deciding whether an enabled feature is active or not. Activation strategies can, for example,
   be used to activate features only for specific users, for specific client IPs or
   at a specified time.
 
@@ -50,13 +50,13 @@ layout: base
   even before the activation strategy concept was introduced in Togglz 2.0.0.
 
 %p
-  If you select this strategy for a feature, you can specify an comma-separated list of 
+  If you select this strategy for a feature, you can specify a comma-separated list of 
   users for which the feature should be active. Togglz will use the <code>UserProvider</code> 
   you configured for the FeatureManager to determine the current user and compare it to
   that list.
 
 %p
-  Please note that Togglz will take case into account when comparing the usernames. So the
+  Please note that Togglz is case-sensitive when comparing the usernames. So the
   users <code>admin</code> and <code>Admin</code> are NOT the same.
 
 %p
@@ -75,12 +75,12 @@ layout: base
 
 %p
   If you select this strategy, you will be asked to enter a percentage value. If you for example 
-  enter <code>25</code>, Togglz will activate the feature for every forth user.
+  enter <code>25</code>, Togglz will activate the feature for every fourth user.
 
 %p
   The users are selected by calculating a hash value from the username which is then normalized
   to a value between 0 and 100. The feature will be active for a user if the hash value is smaller or
-  equal to the percentage you configured. This algorithm will ensure that the feature will be
+  equal to the percentage you configured. This algorithm ensures that the feature will be
   active for a user even after you increased the percentage. Have a look at the
   <a href="https://github.com/togglz/togglz/blob/master/core/src/main/java/org/togglz/core/activation/GradualActivationStrategy.java">source code</a>
   of the strategy for more details.
@@ -91,8 +91,8 @@ layout: base
 
 %p
   The release date strategy can be used to automatically activate a feature at a certain
-  point in time. If you select this strategy, you have to enter a date and an optional
-  time for the feature to get active. If you omit the time, the feature will be activated
+  point in time. If you select this strategy, you must enter the date and (optionally) the
+  time when the feature should become active. If you omit the time, the feature will be activated
   at midnight. The date must be specified in the format <code>2012-12-31</code> and the
   time in the format <code>14:15:00</code>
 
@@ -195,7 +195,7 @@ layout: base
   mechanism. 
 
 %p
-  To register an custom activation strategy implementation, you have to create a file called
+  To register a custom activation strategy implementation, you must create a file called
   <code>META-INF/services/org.togglz.core.spi.ActivationStrategy</code> on your classpath 
   and add single line containing the fully-qualified class name of your implementation class.
 
