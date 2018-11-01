@@ -67,12 +67,13 @@ layout: base
     %tr
       %td.left enabled / disabled
       %td
-        An feature is either enabled or disabled for the entire application. 
+        A feature is either enabled or disabled for the entire application. Note that being enabled does not guarantee that the
+        feature will be active, unless no activation strategy has been defined for it.
     %tr
       %td.left active / inactive
       %td
-        Active feature are visible and usable by the users, inactive features are hidden and therefore 
-        not usable.
+        Enabled features that are also active are visible and usable by the users while enabled, but inactive, features are hidden and therefore
+        not usable. The section below, titled "The Feature State" explains this in more detail.
 %p
   Features are simply declared using a standard Java enum type. Annotations can be used to enrich the feature 
   with additional metadata.
