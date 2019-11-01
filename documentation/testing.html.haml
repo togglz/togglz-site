@@ -35,7 +35,7 @@ layout: base
   is convered in the next section.
 
 %h2
-  JUnit support
+  JUnit 4 support
   
 %p
   Togglz provides some extra goodies for JUnit users. If you are using JUnit, you should always
@@ -156,3 +156,107 @@ layout: base
 %p
   This way of running unit tests is very effective if you want to verify, that the state of a feature has
   no effect on the output of your code.
+
+  %h2
+  JUnit 5 support
+  
+%p
+  Togglz also provides support for JUnit 5 aka JUnit Jupiter. Just add the following dependency in addition to the togglz-testing dependency
+  
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <!-- Togglz testing support -->
+    <dependency>
+      <groupId>org.togglz</groupId>
+      <artifactId>togglz-junit5</artifactId>
+      <version>#{site.stableVersion}</version>
+      <scope>test</scope>
+    </dependency>
+
+%p
+  When using JUnit 5 there is no need for a JUnit Rule anymore. 
+  
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    class AnnotationBasedTogglzExtensionTest {
+
+      @Test
+      @AllEnabled(MyFeatures.class)
+      void allEnabled() {
+          assertTrue(MyFeatures.ONE.isActive());
+          assertTrue(MyFeatures.TWO.isActive());
+          assertTrue(MyFeatures.THREE.isActive());
+      }
+
+      @Test
+      @AllDisabled(MyFeatures.class)
+      void allDisabled() {
+          assertFalse(MyFeatures.ONE.isActive());
+          assertFalse(MyFeatures.TWO.isActive());
+          assertFalse(MyFeatures.THREE.isActive());
+      }
+    
+    }
+
+%p
+  You can enable and disable all Features by using the <code>@AllEnabled</code> and <code>@AllDisabled</code> annotations.
+  The first test enables and the second one disables all three Features of the MyFeatures enum class.
+  In case you want to enable or disable specific Features you can add <code>org.togglz.testing.TestFeatureManager</code> as method parameter.
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    class AnnotationBasedTogglzExtensionTest {
+
+      @Test
+      @AllEnabled(MyFeatures.class)
+      void testFeatureManagerParameter(TestFeatureManager featureManager) {
+          assertTrue(MyFeatures.ONE.isActive());
+
+          featureManager.disable(MyFeatures.ONE);
+          assertFalse(MyFeatures.ONE.isActive());
+
+          featureManager.enable(MyFeatures.ONE);
+          assertTrue(MyFeatures.ONE.isActive());
+      }
+    }
+
+%p
+  Like in the exmaples before you have to annotate the test method with <code>@AllEnabled</code> or <code>@AllDisabled</code>. Depending on how many specific Features you want to disable or enable.
+  In addition to that you can enable and disable specific Features by using the <code>TestFeatureManager</code> <code>enable()</code> and <code>disable()</code> methods like in the example above.
+
+%h3
+  Feature variations
+
+%p
+  The JUnit Jupiter integration module also allows to run tests with different combination of feature states.
+  Variating Features in JUnit Jupiter is little a bit different to the JUnit 4 one. First you have to use the <code>TestTemplate</code> and <code>@VaryFeatures</code> annotations instead of 
+  the <code>@Test</code> and <code>@AllEnabled</code> or <code>@AllDisabled</code> annotations. 
+  After that you have to add a <code>VariationSetProvider</code> to your test class and as an argument to the <code>@VaryFeatures</code> annotation.
+   
+%pre(class="prettyprint lang-java")
+  :escaped
+    class FeatureVariationTogglzExtensionTest {
+
+      @TestTemplate
+      @VaryFeatures(TestingVariationSetProvider.class)
+      void variations() {
+          assertTrue(MyFeatures.ONE.isActive());
+          assertFalse(MyFeatures.TWO.isActive());
+
+          // active or not active, that is the question
+          assertTrue(MyFeatures.THREE.isActive() || !MyFeatures.THREE.isActive());
+      }
+
+      private static class TestingVariationSetProvider implements VariationSetProvider {
+
+          @Override
+          public VariationSet<? extends Feature> buildVariationSet() {
+              return create(MyFeatures.class).enable(MyFeatures.ONE).disable(MyFeatures.TWO).vary(MyFeatures.THREE);
+          }
+      }
+}
+
+%p
+  The VariationSetProvider allows you to enable, disable and vary specific Features. In this example Feature ONE is enabled, Feature TWO disabled and the state of feature THREE varies every execution.
+  This way of running unit tests is very effective if you want to verify, that the state of a feature has no effect on the output of your code.
