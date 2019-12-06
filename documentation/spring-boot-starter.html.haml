@@ -167,6 +167,21 @@ layout: base
   <code>togglz.features-file = file:./togglz.properties</code>.
 
 %h2
+  The Actuator Endpoint
+
+%p
+  By default the togglz-spring-boot starter exposes the togglz endpoint as an actuator one.
+  This allows you to get an overview of all available toggles and also enable and disable features as in the console.
+  By default the endpoint is available via: <code>curl -GET http://localhost:8080/actuator/togglz</code> or even via copy pasting this url in your browser.
+  The response will be similar to this example: <code>{"name":"HELLO_WORLD","enabled":true,"strategy":null,"params":{}},{"name":"REVERSE_GREETING","enabled":false,"strategy":null,"params":{}}</code>
+  The names of your features will probably be different, but the reponse will be similar. If you want to enable or disable a specific feature toggle
+  you can also use curl (this time with HTTP POST instead of GET) to change the state like this:
+  <code>curl -d '{"name":"REVERSE_GREETING", "enabled":"true"}' -H "Content-Type: application/json" -POST http://localhost:8080/actuator/togglz/GREETING</code>.
+  This request changes the status of the <code>REVERSE_GREETING</code> toggle from <code>false</code> to <code>true</code> which will disable the code inside of this feature.
+
+  In case you want a user interface you can add the togglz-console dependency instead of using the actuator endpoint.
+
+%h2
   Admin Console Security
 
 %p
