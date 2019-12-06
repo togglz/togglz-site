@@ -20,11 +20,11 @@ layout: base
     </dependency>
 
 %p
-  Or when using Gradle simply:
+  Or when using Gradle you can simply add to your build.gradle file:
 
 %pre(class="prettyprint")
   :escaped
-    compile("org.togglz:togglz-spring-boot-starter:#{site.stableVersion}")
+    implementation("org.togglz:togglz-spring-boot-starter:#{site.stableVersion}")
 
 %p
   <i>(Note, for Spring Boot 1.x support, replace <code>org.togglz:togglz-spring-boot-starter:#{site.stableVersion}</code> with 
@@ -65,9 +65,9 @@ layout: base
 
 %pre(class="prettyprint")
   :escaped
-    compile("org.togglz:togglz-console:#{site.stableVersion}")
-    compile("org.togglz:togglz-spring-security:#{site.stableVersion}")
-    compile("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:1.0.1.RELEASE")
+    implementation("org.togglz:togglz-console:#{site.stableVersion}")
+    implementation("org.togglz:togglz-spring-security:#{site.stableVersion}")
+    implementation("com.github.heneke.thymeleaf:thymeleaf-extras-togglz:1.0.1.RELEASE")
 
 %h2
   Auto Configuration
