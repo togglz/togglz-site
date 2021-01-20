@@ -36,12 +36,29 @@ layout: base
     </h:panelGroup>
 
 %h2
+  JSP integration
+
+%p
+  The JSP integration module provides a simple tag to render page content depending on whether a feature is active:
+
+%pre(class="prettyprint lang-xml")
+  :escaped
+    <%@ taglib uri="http://togglz.org/taglib" prefix="togglz" %>
+
+    <togglz:feature name="HOT_NEW_FEATURE">
+      <!-- Some part of the page required for HOT_NEW_FEATURE -->
+    </togglz:feature>
+
+%p
+  You can also prefix the feature name with "!" to denote content that should be rendered when the feature is not active.
+
+%h2
   Advanced Spring support
 
 %p
   Togglz ships with some extra goodies for Spring users. If you are using Spring, make sure that you added
   the Spring integration module to your dependencies:
-  
+
 %pre(class="prettyprint lang-xml")
   :escaped
     <!-- Spring integration (optional) -->
@@ -59,18 +76,18 @@ layout: base
   In some situations it may be required to use completely different implementation classes depending
   on whether a feature is active or not. Think for example of a case where you want to rewrite the implementation
   of some reason to improve performance.
-  
+
 %p
   The <code>FeatureProxyFactoryBean</code> allows to create a proxy object, that delegates all calls to one of two beans,
   depending on whether a given feature is active or not.
-  See the following part of a Spring XML configuration file for an example: 
+  See the following part of a Spring XML configuration file for an example:
 
 %pre(class="prettyprint lang-xml")
   :escaped
     <bean id="optimizedService" class="com.example.services.HighPerformanceService" />
-  
+
     <bean id="oldService" class="com.example.services.DefaultService" />
-  
+
     <bean id="someService" class="org.togglz.spring.proxy.FeatureProxyFactoryBean">
       <property name="feature" value="HOT_NEW_FEATURE" />
       <property name="active" ref="optimizedService" />
@@ -80,7 +97,7 @@ layout: base
 %p
   This configuration shows how the <code>FeatureProxyFactoryBean</code> can be used. The factory bean has three
   required properties that have to be set. The property <code>feature</code> is the name of the feature that should be checked
-  before delegating invocations. The properties <code>active</code> and <code>inactive</code> must refer to 
+  before delegating invocations. The properties <code>active</code> and <code>inactive</code> must refer to
   the two alternative implementations.
 
 %p
