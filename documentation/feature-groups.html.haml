@@ -22,7 +22,14 @@ layout: base
     Separation of older feature flags that weren't removed 
 
 %p
-  To define a feature group, you have to create a custom annotation. See the following example:
+  To define a feature group, there are two ways. First you can add the name of the feature group as a parameter to the @FeatureGroup annotation:
+
+%pre(class="prettyprint lang-java")
+  :escaped
+    @FeatureGroup("Performance Improvements")
+
+%p
+  The second way is to create a custom annotation like in the following example:
   
 %pre(class="prettyprint lang-java")
   :escaped
@@ -42,7 +49,7 @@ layout: base
   class files.
 
 %p
-  To add features to the group, just add the new annotation to the feature enum like this: 
+  To add features to the group, just add the new annotation to the feature enum or add the @FeatureGroup containing the value of your feature group like this:
 
 %pre(class="prettyprint lang-java")
   :escaped
@@ -51,6 +58,9 @@ layout: base
         @Label("Enable database caching")
         @Performance
         DATABASE_CACHING,
+
+        @FeatureGroup("Performance Improvements")
+        PERFORMANCE_IMPROVEMENTS,
         
         @Label("Some other one")
         OTHER_FEATURE;
@@ -60,5 +70,5 @@ layout: base
     }
 
 %p
-  Feature groups will automatically show up as a separate tab in the <a href="admin-console.html">Togglz Admin Console</a>.
+  The example will add two tabs to the togglz console. One is named as "Enable database caching" and the other tab is named "Performance Improvements". All the feature groups will automatically show up as a separate tab in the <a href="admin-console.html">Togglz Admin Console</a>.
   
