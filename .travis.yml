@@ -1,5 +1,5 @@
 language: ruby
-rvm: 2.3
+rvm: 2.4
 install:
   - gem install awestruct bootstrap-sass haml-contrib maruku
 script:
