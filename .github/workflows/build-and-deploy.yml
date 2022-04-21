@@ -32,5 +32,5 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: build site
-      run: gem awestruct -P production
+      run: bundle exec awestruct -P production
       
