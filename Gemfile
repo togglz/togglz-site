@@ -1,4 +1,3 @@
-ruby '2.5'
 source 'https://rubygems.org'
 
 gem 'awestruct', '~> 0.6.1'
