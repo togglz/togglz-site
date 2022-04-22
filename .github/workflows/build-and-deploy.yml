@@ -32,5 +32,5 @@ jobs:
     - name: install deps
       run: gem install awestruct bootstrap-sass haml-contrib maruku
     - name: build site
-      run: bundle exec awestruct -P production
+      run: awestruct -P production
       
