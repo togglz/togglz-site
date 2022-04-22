@@ -34,5 +34,7 @@ jobs:
     - name: build site
       run: awestruct -P production
     - name: deploy site
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: ./_deploy.sh
       
