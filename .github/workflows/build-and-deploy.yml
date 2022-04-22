@@ -29,6 +29,8 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: install deps
+      run: gem install awestruct bootstrap-sass haml-contrib maruku
     - name: build site
       run: bundle exec awestruct -P production
       
