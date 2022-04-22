@@ -33,4 +33,6 @@ jobs:
       run: gem install awestruct bootstrap-sass haml-contrib maruku
     - name: build site
       run: awestruct -P production
+    - name: deploy site
+      run: ./_deploy.sh
       
