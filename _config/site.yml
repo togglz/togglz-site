@@ -3,9 +3,7 @@ developmentVersion: 2.7.0-SNAPSHOT
 jdkJavadocsBase: https://docs.oracle.com/javase/8/docs/api
 profiles:
   development:
-    showBuildStatus: false
   production:
     base_url: https://www.togglz.org/
     google_analytics:
       account: UA-7295879-8
-    showBuildStatus: true
