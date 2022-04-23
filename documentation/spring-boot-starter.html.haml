@@ -82,7 +82,8 @@ layout: base
     @Controller
     public class MyClass {
       private FeatureManager manager;
-
+      public static final Feature HELLO_WORLD = new NamedFeature("HELLO_WORLD");
+      
       public MyClass(FeatureManager manager) {
           this.manager = manager;
       }
