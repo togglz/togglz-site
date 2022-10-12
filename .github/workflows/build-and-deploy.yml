@@ -29,6 +29,8 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: install pubic_suffix in compatible ruby version
+      run: gem install public_suffix -v 4.0.7
     - name: install deps
       run: gem install awestruct bootstrap-sass haml-contrib maruku
     - name: build site
