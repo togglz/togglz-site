@@ -28,9 +28,8 @@ jobs:
       uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically    
-    - name: install bundler in compatible ruby version
-      run: gem install bundler -v 2.3.26
+        bundler: 2.3.26
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: install pubic_suffix in compatible ruby version
       run: gem install public_suffix -v 4.0.7
     - name: install deps
